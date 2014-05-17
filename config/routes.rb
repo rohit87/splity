@@ -1,4 +1,18 @@
 Splity::Application.routes.draw do
+  
+  resources :users do
+    member do
+      get :friends
+      post :friends, :unfriend
+    end
+  end
+
+  resources :activities
+
+  match "/login" => "users#authenticate", via: [:get, :post], as: "signin"
+  match "/logout" => "users#logout", via: :get, as: "logout"
+
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

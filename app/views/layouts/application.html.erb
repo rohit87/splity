@@ -2,13 +2,43 @@
 <html>
 <head>
   <title>Splity</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag    "application", media: "all" %>
+  <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
+
 <body>
 
-<%= yield %>
+  <%= render partial: '/layouts/partials/navbar' %>
 
+  <div class="container">
+  
+    <div class="page-header" id="banner">
+      <div class="row">
+        <div class="col-lg-6">
+          <h1>Simplex</h1>
+          <p class="lead">Mini and minimalist</p>
+        </div>
+      </div>
+    </div>
+    
+    <% flash.each do |key, value| %>
+    <div class="alert alert-dismissable alert-<%= key %>">
+      <button type="button" class="close" data-dismiss="alert">×</button>
+      <%= value %>
+    </div>
+    <% end %>
+
+    <%# Page Content %>
+    <%= yield %>
+
+  </div>
+
+  <% if Rails.env.development? %>
+  <div class="well well-lg col-lg-8 col-lg-offset-2">
+    <%= debug(params) %>
+  </div>
+  <% end %>
 </body>
+<%= javascript_include_tag "#{params[:controller]}_#{params[:action]}" %>
 </html>

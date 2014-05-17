@@ -1,0 +1,73 @@
+<% if @activity.errors.any? %>
+  <div class="alert alert-dismissable alert-danger">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <strong>Oops!</strong> Saw <%= pluralize(@activity.errors.count, "error") %>!<br><br>
+    <ul>
+      <% @activity.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<div class="row">
+  <div class="col-lg-3"></div>
+  <div class="col-lg-6">
+    <div class="well bs-component">
+      <form class="form-horizontal" method="POST" action="<%= activities_path %>">
+        <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+
+        <fieldset>
+          <legend>New Activity</legend>
+          
+          <div class="form-group">
+            <label for="inputEvent" class="col-lg-2 control-label">Event</label>
+            <div class="col-lg-10">
+              <input type="text" id="inputEvent" name="activity[event]" class="form-control" placeholder="What did you do?" required="" autofocus="">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="inputLocation" class="col-lg-2 control-label">Location</label>
+            <div class="col-lg-10">
+              <input type="location" id="inputLocation" name="activity[location]" class="form-control" placeholder="Where were you?" required="">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="inputAmount" class="col-lg-2 control-label">Amount</label>
+            <div class="col-lg-10">
+              <input type="number" id="inputAmount" name="activity[amount]" class="form-control" placeholder="How much was spent?" required="" min="0" step="any">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="inputCurrency" class="col-lg-2 control-label">Currency</label>
+            <div class="col-lg-10">
+              <select name="activity[currency]" id="inputCurrency" class="form-control">
+                <option value="INR">&#x20B9;</option>
+                <option value="USD">$</option>
+                <option value="EUR">&#8364;</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <div class="col-lg-10 col-lg-offset-2">
+              <button type="reset" class="btn btn-default">Cancel</button>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-10">
+              <span class="help-block" style="color:#333;">Don't have an account yet? <a href="<%=  %>">Sign Up!</a></span>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+  <div class="col-lg-3"></div>
+</div>

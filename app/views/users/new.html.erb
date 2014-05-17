@@ -1,0 +1,74 @@
+<% if @user.errors.any? %>
+  <div class="alert alert-dismissable alert-danger">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <strong>Oops!</strong> Saw <%= pluralize(@user.errors.count, "error") %>!<br><br>
+    <ul>
+      <% @user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<div class="row">
+  <div class="col-lg-3"></div>
+  <div class="col-lg-6">
+    <div class="well bs-component">
+      <form class="form-horizontal" method="POST" action="<%= users_path %>">
+        <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+
+        <fieldset>
+          <legend>Sign Up</legend>
+          
+          <div class="form-group">
+            <label for="inputEmail" class="col-lg-2 control-label">Email</label>
+            <div class="col-lg-10">
+              <input type="email" id="inputEmail" name="user[email]" class="form-control" placeholder="Email address" required="" autofocus="">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="inputName" class="col-lg-2 control-label">Name</label>
+            <div class="col-lg-10">
+              <input type="text" id="inputName" name="user[name]" class="form-control" placeholder="Your name" required="">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="inputPassword" class="col-lg-2 control-label">Password</label>
+            <div class="col-lg-10">
+              <input type="password" id="inputPassword" name="user[password]" class="form-control" placeholder="Password" required="">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="inputPasswordConfirmation" class="col-lg-2 control-label">Password</label>
+            <div class="col-lg-10">
+              <input type="password" id="inputPasswordConfirmation" name="user[password_confirmation]" class="form-control" placeholder="Re-enter Password" required="">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" onclick="document.getElementById('inputPassword').type = document.getElementById('inputPasswordConfirmation').type = document.getElementById('inputPassword').type == 'password' ? 'text' : 'password'"> Show Password?
+                </label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <div class="col-lg-10 col-lg-offset-2">
+              <button type="reset" class="btn btn-default">Cancel</button>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-10">
+              <span class="help-block" style="color:#333;">Don't have an account yet? <a href="<%=  %>">Sign Up!</a></span>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+  <div class="col-lg-3"></div>
+</div>
