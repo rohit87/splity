@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140517080134) do
+ActiveRecord::Schema.define(version: 20140517201734) do
 
   create_table "activities", force: true do |t|
     t.string   "event"
@@ -30,6 +30,20 @@ ActiveRecord::Schema.define(version: 20140517080134) do
   add_index "friendships", ["friend_id"], name: "index_friendships_on_friend_id", using: :btree
   add_index "friendships", ["user_id", "friend_id"], name: "index_friendships_on_user_id_and_friend_id", unique: true, using: :btree
   add_index "friendships", ["user_id"], name: "index_friendships_on_user_id", using: :btree
+
+  create_table "participations", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "activity_id"
+    t.float    "amount_paid"
+    t.float    "amount_owed"
+    t.integer  "amount_owed_to"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "participations", ["activity_id"], name: "index_participations_on_activity_id", using: :btree
+  add_index "participations", ["user_id", "activity_id"], name: "index_participations_on_user_id_and_activity_id", unique: true, using: :btree
+  add_index "participations", ["user_id"], name: "index_participations_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "name"

@@ -11,10 +11,10 @@
 <% end %>
 
 <div class="row">
-  <div class="col-lg-3"></div>
-  <div class="col-lg-6">
+  <div class="col-lg-2"></div>
+  <div class="col-lg-8" id="divCreateActivityView">
     <div class="well bs-component">
-      <form class="form-horizontal" method="POST" action="<%= activities_path %>">
+      <form class="form-horizontal" method="POST" action="<%= user_create_activity_path current_user.id %>">
         <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
 
         <fieldset>
@@ -29,45 +29,180 @@
 
           <div class="form-group">
             <label for="inputLocation" class="col-lg-2 control-label">Location</label>
-            <div class="col-lg-10">
+            <div class="col-lg-5">
               <input type="location" id="inputLocation" name="activity[location]" class="form-control" placeholder="Where were you?" required="">
             </div>
-          </div>
-
-          <div class="form-group">
-            <label for="inputAmount" class="col-lg-2 control-label">Amount</label>
-            <div class="col-lg-10">
-              <input type="number" id="inputAmount" name="activity[amount]" class="form-control" placeholder="How much was spent?" required="" min="0" step="any">
+            <label for="inputDate" class="col-lg-1 control-label">Date</label>
+            <div class="col-lg-4">
+              <input type="text" class="form-control" id="inputDate" name="activity[date]">
             </div>
           </div>
 
           <div class="form-group">
-            <label for="inputCurrency" class="col-lg-2 control-label">Currency</label>
-            <div class="col-lg-10">
+            <label for="inputAmount" class="col-lg-2 control-label">Total Amount</label>
+            <div class="col-lg-5">
+              <input type="number" id="inputAmount" name="activity[amount]" class="form-control" placeholder="How much was spent? (this is automatic)" required="" min="0" step="any" readonly="readonly">
+              <!-- <div class="checkbox">
+                <label>
+                  <input type="checkbox" onclick="" name="" checked="checked" id="chkIncludeMe"> Include me in the calculations
+                </label>
+              </div> -->
+            </div>
+            <div class="col-lg-2">
               <select name="activity[currency]" id="inputCurrency" class="form-control">
                 <option value="INR">&#x20B9;</option>
                 <option value="USD">$</option>
                 <option value="EUR">&#8364;</option>
               </select>
             </div>
-          </div>
-          
-          <div class="form-group">
-            <div class="col-lg-10 col-lg-offset-2">
-              <button type="reset" class="btn btn-default">Cancel</button>
-              <button type="submit" class="btn btn-primary">Submit</button>
+            <div class="col-lg-3">
+              <input disabled="disabled" id="inputAmountPending" name="activity[amount_pending]" class="form-control" placeholder="How much was spent?" required="">
             </div>
           </div>
-          
+
           <div class="form-group">
-            <div class="col-lg-2"></div>
+            <label class="col-lg-2 control-label">Go Dutch?</label>
             <div class="col-lg-10">
-              <span class="help-block" style="color:#333;">Don't have an account yet? <a href="<%=  %>">Sign Up!</a></span>
+              <div class="radio">
+                <label>
+                  <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
+                  Yes, go dutch. Everyone pays equally.
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" disabled="disabled">
+                  Nope, everyone pays a specific amount which I will calculate. <small class="text-info">(Coming Soon!)</small>
+                </label>
+              </div>
             </div>
           </div>
+
+          <div class="form-group">
+            <label for="inputFriends" class="col-lg-2 control-label">Friends</label>
+            <div class="col-lg-10">
+              <select id="inputFriends" class="form-control" name="activity[friend_ids][]" multiple="multiple" data-placeholder="Type here to include friends in this activity">
+                <% @friends.each do |friend| %>
+                  <option value="<%= friend[:id] %>"><%= friend[:name] %></option>
+                <% end %>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <!-- <div class="row" id="participantsContainer">
+              
+            </div> -->
+            <table class="table table-bordered table-condensed table-striped">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th colspan="2">Amount</th>
+                  <th width="1%">Paid?</th>
+                  <th width="1%">Actions</th>
+              </thead>
+              <tbody id="participantsContainer">
+                
+              </tbody>
+            </table>
+          </div>
+          
+          <div class="form-group">
+            <div class="col-lg-8 col-lg-offset-2">
+              <input type="hidden" name="activity[participants]" id="txtParticipants">
+              <button type="button" class="btn btn-primary btn-block" id="btnCreateActivity">Create</button>
+            </div>
+          </div>
+          
         </fieldset>
       </form>
     </div>
   </div>
-  <div class="col-lg-3"></div>
+  <div class="col-lg-2"></div>
 </div>
+
+<div id="tmplParticipant_old" style="display: none">
+  <div class="pull-left">
+    <img src="//{{url}}" height="80" width="80">
+  </div>
+  <b>{{name}}</b><br>
+  <input type="text" id="txtAmount_{{id}}" placeholder="Enter the amount, without the currency symbol" value="{{amount}}" readonly="{{^amountEditable}}readonly{{/amountEditable}}"><br>
+  <input type="checkbox" id="chkHasPaid_{{id}}"><label for="chkHasPaid_{{id}}">Paid?</label>
+  <a href="javascript:void(0)" id="lnkRemoveParticipant_{{id}}" class="remove-participant">Remove</a>
+</div>
+
+<div id="tmplParticipantCollection" style="display: none">
+  <table class="table table-bordered"></table>
+</div>
+
+<script type="text/x-template" id="tmplParticipant">
+  <td><b><a href="/users/{{id}}/" target="_blank">{{name}}</a></b></td>
+  <td><span id="lblAmountOwed_{{id}}">{{name}} does not need to pay anyone.</span></td>
+  {{#amountEditable}}
+    <td>
+      <input type="text" id="txtAmount_{{id}}" class="input-sm participant-amount form-control" placeholder="How much did {{name}} pay?" value="{{amount}}" >  
+    </td>
+  {{/amountEditable}}
+  {{^amountEditable}}
+    <td><input type="text" id="txtAmount_{{id}}" class="input-sm form-control participant-amount" placeholder="{{name}} did not pay anything." value="{{amount}}" readonly="readonly"></td>
+  {{/amountEditable}}
+  <td><input type="checkbox" id="chkHasPaid_{{id}}" {{#paid}}checked="checked"{{/paid}}></td>
+  <td>{{^cannotRemove}}<button type="button" class="close remove-participant">&times;</button>{{/cannotRemove}}</td>
+</script>
+
+<div style="display: none" id="jsonFriends">
+  <% 
+    friends = @friends.map do |friend| {
+        name: friend.name,
+        id: friend.id,
+        email: friend.email
+      }
+    end
+    concat raw friends.to_json
+  %>
+</div>
+
+<div style="display: none" id="jsonParticipants">
+  <% 
+    concat raw @activity.users.to_json
+  %>
+</div>
+
+<div style="display: none" id="jsonCurrentUser">
+  <%
+    concat raw ({
+      id: current_user.id,
+      email: current_user.email,
+      name: current_user.name
+    }).to_json
+  %>
+</div>
+
+<style type="text/css">
+  .participant-container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .participant-amount {
+    width: 100%;
+    border: 1px solid #d5d5d5;
+  }
+
+  .participant-amount[readonly] {
+    background: transparent;
+    border-color: transparent;
+  }
+</style>
+
+<style>
+  .chosen-container-multi .chosen-choices {
+    border: none;
+    background-color: #fff;
+    background-image: none;
+    background-image: none;
+    background-image: none;
+    background-image: none;
+    background-image: none;
+  }
+</style>

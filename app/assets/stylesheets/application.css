@@ -10,4 +10,9 @@
  *
  *= require_self
  *= require_tree .
+ *= require chosen
+ *= require sb-admin
+ *= require bootstrap-switch
+ *= require datepicker3
+ *= require morris
  */

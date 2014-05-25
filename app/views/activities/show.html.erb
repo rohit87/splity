@@ -1,0 +1,16 @@
+<h3>#</h3>
+<p><%= @activity.id %></p>
+
+<h3>Event</h3>
+<p><%= @activity.event %></p>
+
+<h3>Location</h3>
+<p><%= @activity.location %></p>
+
+<h3>Amount</h3>
+<p><%= @activity.currency %> <%= @activity.amount %></p>
+
+<h3>Created At</h3>
+<p><%= @activity.created_at %></p>
+
+<%= render partial: 'activities/partials/users_as_table', locals: { users: @activity.users.load } %>

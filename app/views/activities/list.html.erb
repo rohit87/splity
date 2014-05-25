@@ -1,0 +1,9 @@
+<div class="row">
+  <h1>Your Acitivities</h1>
+  
+  <%= will_paginate %>
+  <%= render partial: 'activities/partials/activities_as_table', locals: { activities: @activities } %>
+  <%= will_paginate %>
+
+  <a href="<%= new_user_activity_path %>" class="btn btn-primary">New Activity</a>
+</div>

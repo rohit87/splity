@@ -54,8 +54,12 @@ module UsersHelper
       end
     end
 
+    def correct_user?
+      current_user? User.find_by id: params[:id]
+    end
+
     def correct_user
-      unless current_user?(User.find_by id: params[:id])
+      unless correct_user?
         flash[:warning] = "You do not have permissions to view the page you requested!"
         redirect_to signin_url
       end

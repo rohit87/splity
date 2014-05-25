@@ -34,10 +34,17 @@
       </form>
       <ul class="nav navbar-nav navbar-right">
         <% if !signed_in? %>
-        <li><a href="/login">Sign In!</a>
-        </li>
+        <li><a href="/login">Sign In!</a></li>
         <% end %>
         <% if signed_in? %>
+        <li class="dropdown">
+          <a href="javascript: void(0)" class="dropdown" data-toggle="dropdown"><i class="fa fa-bell"></i></a>
+          <ul class="dropdown-menu">
+            <% current_user.notifications.each do |notification| %>
+              <a href="<%= notification.link %>"><%= notification.text %></a>
+            <% end %>
+          </ul>
+        </li>
         <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= current_user.name %><b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li><a href="<%= user_url(current_user) %>">My Profile</a>

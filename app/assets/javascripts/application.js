@@ -14,3 +14,15 @@
 //= require jquery_ujs
 // require turbolinks
 // require_tree .
+//
+//= require mustache
+//= require common
+//= require TemplateProvider
+//
+//= require bootstrap.min
+//= require jquery.chosen
+//= require bootstrap-datepicker
+//= require bootstrap-switch
+//
+//= require raphael
+//= require morris.min

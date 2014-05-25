@@ -1,0 +1,10 @@
+<table class="table table-bordered">
+  <tr>
+    <th>#</th>
+    <th>event</th>
+    <th>location</th>
+    <th>amount</th>
+    <th>currency</th>
+  </tr>
+  <%= render :collection => @activities, :partial => "activities/partials/activity_as_table_row", :as => :activity %>
+</table>

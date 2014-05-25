@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   
-  before_action :signed_in_user, only: [:index, :friends, :unfriend, :logout]
+  before_action :signed_in_user, only: [:index, :friends, :unfriend, :logout, :home, :show]
   before_action :correct_user, only: [:friends]
   
   def index
@@ -14,7 +14,14 @@ class UsersController < ApplicationController
   end
 
   def show
+    redirect_to root_url and return if current_user.id.to_s == params[:id]
     @user = User.find(params[:id])
+  end
+
+  def home
+    @user = current_user
+    @dashboard = user_dashboard(current_user)
+    render 'show'
   end
 
   def create
@@ -60,6 +67,51 @@ class UsersController < ApplicationController
 
     def user_params
       params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    end
+
+    def user_dashboard(user)
+      participations = user.participations
+      incoming = []
+      payments = []
+      debts = []
+      p = {}
+      participations.each do |participation|
+        payments << {
+          activity: "#{participation.activity.event} @ #{participation.activity.location}",
+          amount_paid: participation.amount_paid.to_i,
+          total_amount: participation.activity.amount.to_i,
+          id: participation.id
+        }
+        
+        if participation.amount_owed != nil
+          debts << {
+            activity: "#{participation.activity.event} @ #{participation.activity.location}",
+            amount_owed: participation.amount_owed,
+            amount_owed_to: participation[:amount_owed_to],
+            amount_owed_to_name: User.find(participation[:amount_owed_to]).name,
+          }
+        end
+      end
+
+      Participation
+        .where("user_id != :user_id AND amount_owed_to = :amount_owed_to", {
+          user_id: user.id,
+          amount_owed_to: user.id
+        }).each do |p|
+          incoming << {
+            amount: p[:amount_owed],
+            from: User.find(p[:user_id]).name
+          }
+        end
+      return {
+        participations: participations,
+        payments: payments,
+        incoming: incoming,
+        debts: debts,
+        total_debt: debts.collect{|d| d[:amount_owed]}.reduce(:+),
+        total_paid: payments.collect{|d| d[:amount_paid]}.reduce(:+),
+        total_amount: payments.collect{|d| d[:total_amount]}.reduce(:+)
+      }
     end
 
 end

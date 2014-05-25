@@ -1,0 +1,9 @@
+<tr>
+  <td><a href="<%= user_path(user) %>"><%= user.id %></a></td>
+  <td>
+    <%= user[:name] %>
+    <% if user.id == current_user.id %><span class="label label-info">You</span><% end %>
+  </td>
+  <td><%= user[:created_at] %></td>
+  <td><%= user[:updated_at] %></td>
+</tr>

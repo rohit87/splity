@@ -5,12 +5,15 @@ Splity::Application.routes.draw do
       get :friends
       post :friends, :unfriend
     end
-  end
 
-  resources :activities
+    resources :activities
+    match "/activities/new" => "activities#create", via: [:post], as: "create_activity"
+  end
 
   match "/login" => "users#authenticate", via: [:get, :post], as: "signin"
   match "/logout" => "users#logout", via: :get, as: "logout"
+
+  match "/" => "users#home", via: [:get], as: "root"
 
   
   # The priority is based upon order of creation: first created -> highest priority.

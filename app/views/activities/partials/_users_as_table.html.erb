@@ -1,10 +1,9 @@
 <table class="table table-bordered">
   <tr>
     <th>#</th>
-    <th>email</th>
     <th>name</th>
     <th>createdAt</th>
     <th>updatedAt</th>
   </tr>
-  <%= render :collection => users, :partial => "users/partials/user_as_table_row", :as => :user %>
+  <%= render :collection => users, :partial => "activities/partials/user_as_table_row", :as => :user %>
 </table>

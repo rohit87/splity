@@ -1,3 +1,160 @@
+<% if @user.id == current_user.id %>
+
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-xs-6">
+              <i class="fa fa-comments fa-5x"></i>
+            </div>
+            <div class="col-xs-6 text-right">
+              <p class="announcement-heading"><%= @dashboard[:total_debt].to_i %></p>
+              <p class="announcement-text">Total Debt!</p>
+            </div>
+          </div>
+        </div>
+        <a href="#">
+          <div class="panel-footer announcement-bottom">
+            <div class="row">
+              <div class="col-xs-6">
+                Show
+              </div>
+              <div class="col-xs-6 text-right">
+                <i class="fa fa-arrow-circle-right"></i>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="panel panel-warning">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-xs-6">
+              <i class="fa fa-check fa-5x"></i>
+            </div>
+            <div class="col-xs-6 text-right">
+              <p class="announcement-heading"><%= @dashboard[:total_paid] %></p>
+              <p class="announcement-text">Total Paid</p>
+            </div>
+          </div>
+        </div>
+        <a href="#">
+          <div class="panel-footer announcement-bottom">
+            <div class="row">
+              <div class="col-xs-6">
+                More Details
+              </div>
+              <div class="col-xs-6 text-right">
+                <i class="fa fa-arrow-circle-right"></i>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="panel panel-danger">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-xs-6">
+              <i class="fa fa-tasks fa-5x"></i>
+            </div>
+            <div class="col-xs-6 text-right">
+              <p class="announcement-heading"><%= @dashboard[:total_amount] %></p>
+              <p class="announcement-text">Total Bills</p>
+            </div>
+          </div>
+        </div>
+        <a href="#">
+          <div class="panel-footer announcement-bottom">
+            <div class="row">
+              <div class="col-xs-6">
+                Explain
+              </div>
+              <div class="col-xs-6 text-right">
+                <i class="fa fa-arrow-circle-right"></i>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-xs-6">
+              <i class="fa fa-comments fa-5x"></i>
+            </div>
+            <div class="col-xs-6 text-right">
+              <p class="announcement-heading"><%= @dashboard[:participations].length %></p>
+              <p class="announcement-text">Total Activities</p>
+            </div>
+          </div>
+        </div>
+        <a href="#">
+          <div class="panel-footer announcement-bottom">
+            <div class="row">
+              <div class="col-xs-6">
+                Expand
+              </div>
+              <div class="col-xs-6 text-right">
+                <i class="fa fa-arrow-circle-right"></i>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-lg-6" style="height: 250px" id="divAmountDue"></div>
+    <div class="col-lg-6" style="height: 250px" id="divAmountOwed"></div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6" style="height: 250px;" id="divProportionalAmountPaid"></div>
+  </div>
+
+<script type="text/javascript">
+  var dashboard = <%= raw @dashboard.to_json %>;
+
+  Morris.Bar({
+    element: 'divAmountOwed',
+    data: dashboard.debts,
+    xkey: 'amount_owed_to_name',
+    ykeys: ['amount_owed'],
+    labels: ['You owe'],
+    barRatio: 0.4,
+    xLabelAngle: 0,
+    hideHover: 'auto'
+  });
+
+  Morris.Bar({
+    element: 'divAmountDue',
+    data: dashboard.incoming,
+    xkey: 'from',
+    ykeys: ['amount'],
+    labels: ['Owes you'],
+    hideHover: 'auto'
+  });
+
+  Morris.Area({
+    element: 'divProportionalAmountPaid',
+    data: dashboard.payments,
+    xkey: 'activity',
+    parseTime: false,
+    behaveLikeLine: true,
+    ykeys: ['amount_paid', 'total_amount'],
+    labels: ['Amount You Paid', 'Total Amount'],
+    hideHover: 'auto'
+  });
+</script>
+<% end %>
+
 <div class="row">
   <aside class="span4">
     <section>
@@ -7,4 +164,10 @@
       </h1>
     </section>
   </aside>
+
+  <% if @user.id == current_user.id %>
+    <%= link_to "Activities", user_activities_url(current_user), class: "btn btn-primary" %>
+    <%= link_to "Friends", friends_user_url(current_user), class: "btn btn-primary" %>
+  <% end %>
+
 </div>
