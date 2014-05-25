@@ -13,6 +13,10 @@ Splity::Application.routes.draw do
   match "/login" => "users#authenticate", via: [:get, :post], as: "signin"
   match "/logout" => "users#logout", via: :get, as: "logout"
 
+  # notifications
+  match "/notifications_lightbox/" => "notifications#all_notifications_lightbox", via: :get, as: "notifications_lightbox"
+  match "/notification/read/:notification_id" => "notifications#read_notification", via: :get, as: "notification_read"
+
   match "/" => "users#home", via: [:get], as: "root"
 
   

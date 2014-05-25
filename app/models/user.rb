@@ -14,6 +14,8 @@ class User < ActiveRecord::Base
   has_many :participations
   has_many :activities, through: :participations
 
+  has_many :notifications
+
   # has_many :friends, through: :reverse_friendships
   
 

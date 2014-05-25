@@ -1,0 +1,39 @@
+<% environment.context_class.instance_eval { include Rails.application.routes.url_helpers } %>
+
+$ () ->
+  $button = $ '[data-target="#allNotificationsModal"]'
+  $hot_area = $ '.notifications-dropdown'
+  $hot_area.click () ->
+    if $('#allNotificationsModal').size() is 0
+      $.ajax '<%= notifications_lightbox_path %>'
+        .then (response) ->
+          $(response).prependTo $ document.body
+          $button.click()
+
+$ () ->
+  $label = $ '#lblNumNotifications'
+  number = ~~$label.text()
+  time = 100
+  return if number is 0
+  animate = () ->
+    $label
+      .animate {
+        opacity: 0
+      }, time
+      .delay time
+      .animate {
+        opacity: 1
+      }, time
+  animate()
+  setTimeout animate, time * 2
+  setTimeout animate, time * 4
+
+$ () ->
+  baseUrl = "<%= notification_read_path(0).gsub!('/0', '') %>"
+  $ document
+    .on 'click', '.notification-delete', () ->
+      notificationId = $(this).parent().data('notification-id')
+      $ "[data-notification-id=#{notificationId}]"
+        .slideUp 'fast', () -> 
+          $(this).remove()
+          $.ajax "#{baseUrl}/#{notificationId}"

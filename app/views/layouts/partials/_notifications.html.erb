@@ -1,0 +1,90 @@
+<style type="text/css">
+  .empty-notification {
+    opacity: 0.3;
+    pointer-events: none;
+    cursor: default;
+  }
+
+  .notification-list-item {
+    position: relative;
+  }
+
+  .notification-list-item > button.close {
+    position: absolute;
+    top: -5px;
+    right: 5px;
+  }
+
+  .notification-item {
+    width: 360px;
+    border-bottom: 1px solid #e2e2e2;
+    box-sizing: border-box;
+    overflow: hidden;
+    font-size: 13px;
+    text-overflow: ellipsis;
+  }
+
+  .notification-item-last {
+    text-align: center !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    font-weight: bold !important;
+    border: none;
+  }
+
+  .notification-container {
+    position: relative;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+  }
+
+  .notification-container .notification-date {
+    display: block;
+    text-align: right;
+    font-size: 12px;
+    color: #999;
+    font-weight: 500;
+  }
+
+  .notification-container > p {
+    width: 90%;
+    transition: 100ms;
+  }
+
+  .notification-container:last-child {
+    border-bottom: none;
+  }
+
+  .modal-body .notification-container > p:hover {
+    color: #000;
+    transition: 100ms;
+  }
+
+  .notification-container .notification-delete {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    display: none;
+  }
+
+  .notification-container:hover .notification-delete {
+    display: block;
+  }
+</style>
+<% if current_user.notifications.length == 0 %>
+<li>
+  <a href="javascript: void(0)" class="empty-notification"><i class="fa fa-bell-o"></i></a>
+</li>
+<% else %>
+<li class="dropdown">
+  <a href="javascript: void(0)" class="dropdown" data-toggle="dropdown"><i class="fa fa-bell"></i><span id ="lblNumNotifications" class="label"><%= current_user.notifications.length %></span></a>
+  <ul class="dropdown-menu notifications-dropdown">
+    <% current_user.notifications.each do |notification| %>
+      <li class="notification-list-item" data-notification-id=<%= notification.id %>>
+        <a href="<%= notification.link %>" class="notification-item"><%= raw notification.text %></a>
+      </li>
+    <% end %>
+    <li><a href="javascript:void(0)" class="notification-item notification-item-last" data-toggle="modal" data-target="#allNotificationsModal">See All Notifications <i class="fa fa-angle-right"></i></a></li>
+  </ul>
+</li>
+<% end %>

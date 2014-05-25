@@ -1,0 +1,24 @@
+<div class="modal fade" id="allNotificationsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> -->
+        <h4 class="modal-title" id="myModalLabel">Your Notifications</h4>
+      </div>
+      <div class="modal-body">
+        <% current_user.notifications.each do |notification| %>
+        <div class="notification-container" data-notification-id="<%= notification.id %>">
+          <p><%= notification.text %></p>
+          <span class="notification-date"><%= time_ago_in_words notification.created_at %> ago</span>
+          <button type="button" class="close notification-delete" aria-hidden="true">&times;</button>
+        </div>
+        <% end %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>

@@ -23,6 +23,7 @@
 //= require jquery.chosen
 //= require bootstrap-datepicker
 //= require bootstrap-switch
+//= require spin
 //
 //= require raphael
 //= require morris.min
