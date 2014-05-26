@@ -9,7 +9,7 @@
       <div class="modal-body">
         <% current_user.notifications.each do |notification| %>
         <div class="notification-container" data-notification-id="<%= notification.id %>">
-          <p><%= notification.text %></p>
+          <p><%= raw notification.text %></p>
           <span class="notification-date"><%= time_ago_in_words notification.created_at %> ago</span>
           <button type="button" class="close notification-delete" aria-hidden="true">&times;</button>
         </div>

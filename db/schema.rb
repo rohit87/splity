@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 20140525040609) do
     t.integer  "user_id"
     t.string   "text"
     t.string   "link"
-    t.integer  "type"
+    t.string   "type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

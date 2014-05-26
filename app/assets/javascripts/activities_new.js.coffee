@@ -3,8 +3,7 @@ $ ->
   participants = JSON.parse($('#jsonParticipants').html())
   me = JSON.parse($('#jsonCurrentUser').html())
   $container = $ "#participantsContainer"
-  participants = participants.concat friends
-
+  
   window.view = new CreateActivityForm $("#divCreateActivityView"), friends, participants, me
 
 

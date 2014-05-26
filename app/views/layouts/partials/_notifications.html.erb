@@ -81,7 +81,7 @@
   <ul class="dropdown-menu notifications-dropdown">
     <% current_user.notifications.each do |notification| %>
       <li class="notification-list-item" data-notification-id=<%= notification.id %>>
-        <a href="<%= notification.link %>" class="notification-item"><%= raw notification.text %></a>
+        <a href="<%= notification.link %>" class="notification-item" style="white-space: normal;"><%= raw notification.text %></a>
       </li>
     <% end %>
     <li><a href="javascript:void(0)" class="notification-item notification-item-last" data-toggle="modal" data-target="#allNotificationsModal">See All Notifications <i class="fa fa-angle-right"></i></a></li>
