@@ -13,6 +13,10 @@ class Activity < ActiveRecord::Base
     self.currency = currency.upcase
   }
 
+  CurrencySymbol = {
+    :INR => "&#x20B9;"
+  }.freeze
+
   def save!
     raise "Could not save!" if !self.save
   end

@@ -1,38 +1,40 @@
 <div class="row">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-    <div class="row">
-      <div class="pull-left col-lg-3"><h4>All Your Friends</h4></div>
-       <div class="pull-right col-lg-4">
-         <form method="POST" action="">
-            <div class="input-group input-group-m">
-              <span class="input-group-addon">@</span>
-              <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
-              <input type="email" id="email" class="form-control" name="friend[email]" value="" placeholder="add friend via email" autofocus required autocomplete>
-                <span class="input-group-btn">
-                  <input class="btn btn-default" id="btnSearch" type="submit" value="Add" style="display: none">
-                </span>
-            </div>
-          </form>
-       </div>
-    </div>
-    </div>
-    <div class="panel-body">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+      <div class="row">
+        <div class="pull-left col-lg-3"><h4>All Your Friends</h4></div>
+         <div class="pull-right col-lg-4">
+           <form method="POST" action="">
+              <div class="input-group input-group-m">
+                <span class="input-group-addon">@</span>
+                <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+                <input type="email" id="email" class="form-control" name="friend[email]" value="" placeholder="add friend via email" autofocus required autocomplete>
+                  <span class="input-group-btn">
+                    <input class="btn btn-default" id="btnSearch" type="submit" value="Add" style="display: none">
+                  </span>
+              </div>
+            </form>
+         </div>
+      </div>
+      </div>
+      <div class="panel-body">
 
-      <% @friends.each do |friend| %>
-        <div class="col-md-4">
-          <%= render partial: "users/partials/friend_as_block", locals: { friend: friend } %>
-        </div>
-      <% end %>
-
-      <div class="col-md-4">
-        <div href="javascript:void(0)" class="friend-block-container add-friend" style="display: none;">
-          <div class="friend-preview pull-left">
-            <img width="80" height="80" class="img-thumbnail" src="http://placecage.com/c/80/80">
+        <% @friends.each do |friend| %>
+          <div class="col-md-4">
+            <%= render partial: "users/partials/friend_as_block", locals: { friend: friend } %>
           </div>
-          <h4 class="friend-block-friend-name">Press Enter to Add Friend</h4>
-          <h5 class="friend-block-friend-email">(Or click on the 'Add' button)</h5>
-          <div style="clear: both"></div>
+        <% end %>
+
+        <div class="col-md-4">
+          <div href="javascript:void(0)" class="friend-block-container add-friend" style="display: none;">
+            <div class="friend-preview pull-left">
+              <img width="80" height="80" class="img-thumbnail" src="http://placecage.com/c/80/80">
+            </div>
+            <h4 class="friend-block-friend-name">Press Enter to Add Friend</h4>
+            <h5 class="friend-block-friend-email">(Or click on the 'Add' button)</h5>
+            <div style="clear: both"></div>
+          </div>
         </div>
       </div>
     </div>

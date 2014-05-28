@@ -4,8 +4,7 @@ class ActivitiesController < ApplicationController
   protect_from_forgery :except => [:create]
 
   def index
-    @activities = current_user.activities.paginate page: params[:page], per_page: 10
-    render 'list'
+    @activities = current_user.activities.paginate(page: params[:page], per_page: 10)
   end
 
   def new

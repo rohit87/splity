@@ -5,11 +5,19 @@
   <%= stylesheet_link_tag    "application", media: "all" %>
   <%= javascript_include_tag "application" %>
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+  
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <%= csrf_meta_tags %>
 </head>
 
 <body>
+
+<script type="text/javascript">
+  var params = {
+    controller: "<%= params[:controller] %>",
+    action: "<%= raw params[:action] %>"
+  }
+</script>
 
   <%= render partial: '/layouts/partials/navbar' %>
 
@@ -40,10 +48,14 @@
   <div class="well well-lg col-lg-8 col-lg-offset-2">
     <%= debug(params) %>
   </div>
+  <% if @dashboard.present? %>
   <div class="well well-lg col-lg-8 col-lg-offset-2">
     <pre><code><script type="text/javascript">document.write(JSON.stringify(<%= raw @dashboard.to_json if @dashboard.present? %>, null, 2))</script></code></pre>
   </div>
   <% end %>
+  <% end %>
+  <% if GlobalConstants::JavascriptsProvided[params[:controller]] == params[:action] %>
+    <%= javascript_include_tag "#{params[:controller]}/#{params[:action]}" %>
+  <% end %>
 </body>
-<%= javascript_include_tag "#{params[:controller]}_#{params[:action]}" %>
 </html>

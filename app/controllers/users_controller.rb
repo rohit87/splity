@@ -29,6 +29,7 @@ class UsersController < ApplicationController
     if @user.save
       flash[:success] = "Welcome to SplityApp!"
       @user.notifications << WelcomeNotification.new(@user)
+      UserMailer.welcome_email(@user).deliver
       redirect_to @user
     else
       render 'new'

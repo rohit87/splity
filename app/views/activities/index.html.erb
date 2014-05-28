@@ -1,0 +1,17 @@
+<div class="row">
+  <h1>Your Activities</h1>
+  
+  <%= will_paginate %>
+  <% @activities.map {|x| ActivityPresenter.new(x)}.each do |activity_presenter| %>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <%= link_to user_activity_url current_user, activity_presenter.id do %>
+        <%= raw "#{activity_presenter.event} at #{activity_presenter.location} with #{activity_presenter.users_except current_user} on #{activity_presenter.date} for a total of #{activity_presenter.formatted_total_amount}" %>
+    <% end %>
+  </div>
+  <% end %>
+</div>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <a href="<%= new_user_activity_path %>" class="btn btn-primary">New Activity</a>
+  </div>
+</div>
