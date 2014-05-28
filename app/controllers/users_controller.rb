@@ -78,14 +78,17 @@ class UsersController < ApplicationController
       debts = []
       p = {}
       participations.each do |participation|
-        payments << {
-          activity: "#{participation.activity.event} @ #{participation.activity.location}",
-          amount_paid: participation.amount_paid.to_i,
-          total_amount: participation.activity.amount.to_i,
-          id: participation.id
-        }
         
-        if participation.amount_owed != nil
+        if !participation.resolved
+          payments << {
+            activity: "#{participation.activity.event} @ #{participation.activity.location}",
+            amount_paid: participation.amount_paid.to_i,
+            total_amount: participation.activity.amount.to_i,
+            id: participation.id
+          }
+        end
+        
+        if participation.amount_owed != nil && !participation.resolved
           debts << {
             activity: "#{participation.activity.event} @ #{participation.activity.location}",
             amount_owed: participation.amount_owed,
@@ -96,7 +99,7 @@ class UsersController < ApplicationController
       end
 
       Participation
-        .where("user_id != :user_id AND amount_owed_to = :amount_owed_to", {
+        .where("user_id != :user_id AND amount_owed_to = :amount_owed_to AND resolved = false", {
           user_id: user.id,
           amount_owed_to: user.id
         }).each do |p|

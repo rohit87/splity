@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140525040609) do
+ActiveRecord::Schema.define(version: 20140528211103) do
 
   create_table "activities", force: true do |t|
     t.string   "event"
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 20140525040609) do
     t.integer  "amount_owed_to"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "resolved",       default: false, null: false
   end
 
   add_index "participations", ["activity_id"], name: "index_participations_on_activity_id", using: :btree

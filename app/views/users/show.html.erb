@@ -1,256 +1,129 @@
 <% if @user.id == current_user.id %>
-
-  <div class="row">
-    <div class="col-lg-3 col-xs-6">
-      <!-- small box -->
-      <div class="small-box bg-aqua">
-        <div class="inner">
-          <h3>
-            <%= @dashboard[:total_debt].to_i %>
-          </h3>
-          <p>
-            Total Debt
-          </p>
-        </div>
-        <!-- <div class="icon">
-          <i class="ion ion-bag"></i>
-        </div> -->
-        <a href="#" class="small-box-footer">
-        More info <i class="fa fa-arrow-circle-right"></i>
-        </a>
-      </div>
-    </div>
-    <!-- ./col -->
-    <div class="col-lg-3 col-xs-6">
-      <!-- small box -->
-      <div class="small-box bg-green">
-        <div class="inner">
-          <h3>
-            <%= @dashboard[:total_paid] %>
-          </h3>
-          <p>
-            Total Paid
-          </p>
-        </div>
-        <!-- <div class="icon">
-          <i class="ion ion-stats-bars"></i>
-        </div> -->
-        <a href="#" class="small-box-footer">
-        More info <i class="fa fa-arrow-circle-right"></i>
-        </a>
-      </div>
-    </div>
-    <!-- ./col -->
-    <div class="col-lg-3 col-xs-6">
-      <!-- small box -->
-      <div class="small-box bg-yellow">
-        <div class="inner">
-          <h3>
-            <%= @dashboard[:total_amount] %>
-          </h3>
-          <p>
-            Total Bills
-          </p>
-        </div>
-        <!-- <div class="icon">
-          <i class="ion ion-person-add"></i>
-        </div> -->
-        <a href="#" class="small-box-footer">
-        More info <i class="fa fa-arrow-circle-right"></i>
-        </a>
-      </div>
-    </div>
-    <!-- ./col -->
-    <div class="col-lg-3 col-xs-6">
-      <!-- small box -->
-      <div class="small-box bg-red">
-        <div class="inner">
-          <h3>
-            <%= @dashboard[:participations].length %>
-          </h3>
-          <p>
-            Total Activities
-          </p>
-        </div>
-        <!-- <div class="icon">
-          <i class="ion ion-pie-graph"></i>
-        </div> -->
-        <a href="#" class="small-box-footer">
-        More info <i class="fa fa-arrow-circle-right"></i>
-        </a>
-      </div>
-    </div>
-    <!-- ./col -->
-  </div>
-
-  <!-- <div class="row">
-    <div class="col-lg-3">
-      <div class="panel panel-info">
-        <div class="panel-heading">
-          <div class="row">
-            <div class="col-xs-6">
-              <i class="fa fa-long-arrow-down fa-5x"></i> <i class="fa fa-usd fa-5x text-danger"></i>
-            </div>
-            <div class="col-xs-6 text-right">
-              <p class="announcement-heading"><%= @dashboard[:total_debt].to_i %></p>
-              <p class="announcement-text">Total Debt!</p>
-            </div>
-          </div>
-        </div>
-        <a href="#">
-          <div class="panel-footer announcement-bottom">
-            <div class="row">
-              <div class="col-xs-6">
-                Show
-              </div>
-              <div class="col-xs-6 text-right">
-                <i class="fa fa-arrow-circle-right"></i>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-    </div>
-    <div class="col-lg-3">
-      <div class="panel panel-warning">
-        <div class="panel-heading">
-          <div class="row">
-            <div class="col-xs-6">
-              <i class="fa fa-long-arrow-up fa-5x"></i> <i class="fa fa-usd fa-5x text-success"></i>
-            </div>
-            <div class="col-xs-6 text-right">
-              <p class="announcement-heading"><%= @dashboard[:total_paid] %></p>
-              <p class="announcement-text">Total Paid</p>
-            </div>
-          </div>
-        </div>
-        <a href="#">
-          <div class="panel-footer announcement-bottom">
-            <div class="row">
-              <div class="col-xs-6">
-                More Details
-              </div>
-              <div class="col-xs-6 text-right">
-                <i class="fa fa-arrow-circle-right"></i>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-    </div>
-    <div class="col-lg-3">
-      <div class="panel panel-danger">
-        <div class="panel-heading">
-          <div class="row">
-            <div class="col-xs-6">
-              <i class="fa fa-tasks fa-5x"></i>
-            </div>
-            <div class="col-xs-6 text-right">
-              <p class="announcement-heading"><%= @dashboard[:total_amount] %></p>
-              <p class="announcement-text">Total Bills</p>
-            </div>
-          </div>
-        </div>
-        <a href="#">
-          <div class="panel-footer announcement-bottom">
-            <div class="row">
-              <div class="col-xs-6">
-                Explain
-              </div>
-              <div class="col-xs-6 text-right">
-                <i class="fa fa-arrow-circle-right"></i>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-    </div>
-    <div class="col-lg-3">
-      <div class="panel panel-success">
-        <div class="panel-heading">
-          <div class="row">
-            <div class="col-xs-6">
-              <i class="fa fa-comments fa-5x"></i>
-            </div>
-            <div class="col-xs-6 text-right">
-              <p class="announcement-heading"><%= @dashboard[:participations].length %></p>
-              <p class="announcement-text">Total Activities</p>
-            </div>
-          </div>
-        </div>
-        <a href="#">
-          <div class="panel-footer announcement-bottom">
-            <div class="row">
-              <div class="col-xs-6">
-                Expand
-              </div>
-              <div class="col-xs-6 text-right">
-                <i class="fa fa-arrow-circle-right"></i>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-    </div>
-  </div> -->
   
-  <div class="row">
-    <div class="col-lg-6" style="height: 250px" id="divAmountDue"></div>
-    <div class="col-lg-6" style="height: 250px" id="divAmountOwed"></div>
+  <div class="row" style="margin-bottom: 10px;">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <ul class="nav nav-pills">
+        <li class="active"><a href="#dashboard" data-toggle="tab">Dashboard</a></li>
+        <li><a href="#amountOwed" data-toggle="tab">Breakdowns</a></li>
+        <li><a href="#profile" data-toggle="tab">My Profile</a></li>
+      </ul>
+    </div>
   </div>
-  <div class="row">
-    <div class="col-lg-6" style="height: 250px;" id="divProportionalAmountPaid"></div>
-  </div>
 
-<script type="text/javascript">
-  var dashboard = <%= raw @dashboard.to_json %>;
+  <div class="tab-content">
+    <div class="tab-pane active row" id="dashboard">
+      <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-aqua">
+          <div class="inner">
+            <h3>
+              <%= @dashboard[:total_debt].to_i %>
+            </h3>
+            <p>
+              Total Debt
+            </p>
+          </div>
+          <!-- <div class="icon">
+            <i class="ion ion-bag"></i>
+          </div> -->
+          <a href="#" class="small-box-footer">
+          More info <i class="fa fa-arrow-circle-right"></i>
+          </a>
+        </div>
+      </div>
+      <!-- ./col -->
+      <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-green">
+          <div class="inner">
+            <h3>
+              <%= @dashboard[:total_paid] %>
+            </h3>
+            <p>
+              Total Paid
+            </p>
+          </div>
+          <!-- <div class="icon">
+            <i class="ion ion-stats-bars"></i>
+          </div> -->
+          <a href="#" class="small-box-footer">
+          More info <i class="fa fa-arrow-circle-right"></i>
+          </a>
+        </div>
+      </div>
+      <!-- ./col -->
+      <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-yellow">
+          <div class="inner">
+            <h3>
+              <%= @dashboard[:total_amount] %>
+            </h3>
+            <p>
+              Total Bills
+            </p>
+          </div>
+          <!-- <div class="icon">
+            <i class="ion ion-person-add"></i>
+          </div> -->
+          <a href="#" class="small-box-footer">
+          More info <i class="fa fa-arrow-circle-right"></i>
+          </a>
+        </div>
+      </div>
+      <!-- ./col -->
+      <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-red">
+          <div class="inner">
+            <h3>
+              <%= @dashboard[:participations].length %>
+            </h3>
+            <p>
+              Total Activities
+            </p>
+          </div>
+          <!-- <div class="icon">
+            <i class="ion ion-pie-graph"></i>
+          </div> -->
+          <a href="#" class="small-box-footer">
+          More info <i class="fa fa-arrow-circle-right"></i>
+          </a>
+        </div>
+      </div>
+      <!-- ./col -->
+    </div>
 
-  Morris.Bar({
-    element: 'divAmountOwed',
-    data: dashboard.debts,
-    xkey: 'amount_owed_to_name',
-    ykeys: ['amount_owed'],
-    labels: ['You owe'],
-    barRatio: 0.4,
-    xLabelAngle: 0,
-    hideHover: 'auto'
-  });
+    <div class="tab-pane" id="amountOwed">
+      <div class="row">
+        <div class="col-lg-6" style="height: 250px" id="divAmountDue"></div>
+        <div class="col-lg-6" style="height: 250px" id="divAmountOwed"></div>
+      </div>
 
-  Morris.Bar({
-    element: 'divAmountDue',
-    data: dashboard.incoming,
-    xkey: 'from',
-    ykeys: ['amount'],
-    labels: ['Owes you'],
-    hideHover: 'auto'
-  });
-
-  Morris.Area({
-    element: 'divProportionalAmountPaid',
-    data: dashboard.payments,
-    xkey: 'activity',
-    parseTime: false,
-    behaveLikeLine: true,
-    ykeys: ['amount_paid', 'total_amount'],
-    labels: ['Amount You Paid', 'Total Amount'],
-    hideHover: 'auto'
-  });
-</script>
-<% end %>
-
-<div class="row">
-  <aside class="span4">
-    <section>
-      <h1>
-        <%= gravatar_for @user %>
-        <%= @user.name %>
-      </h1>
-    </section>
-  </aside>
-
-  <% if @user.id == current_user.id %>
-    <%= link_to "Activities", user_activities_url(current_user), class: "btn btn-primary" %>
-    <%= link_to "Friends", friends_user_url(current_user), class: "btn btn-primary" %>
+      <div class="row">
+        <div class="col-lg-6" style="height: 250px;" id="divProportionalAmountPaid"></div>
+      </div>
+    </div>
   <% end %>
 
+  <div class="tab-pane row" id="profile">
+    <aside class="span4">
+      <section>
+        <h1>
+          <%= gravatar_for @user %>
+          <%= @user.name %>
+        </h1>
+      </section>
+    </aside>
+
+    
+
+    <% if @user.id == current_user.id %>
+      <%= link_to "Activities", user_activities_url(current_user), class: "btn btn-primary" %>
+      <%= link_to "Friends", friends_user_url(current_user), class: "btn btn-primary" %>
+    <% end %>
+
+  </div>
 </div>
+
+<script type="text/javascript">var dashboard = <%= raw @dashboard.to_json %>;</script>
