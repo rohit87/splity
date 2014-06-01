@@ -7,7 +7,7 @@ class UserProfilePresenter
   VisibleAttributes = [:id, :email, :name].freeze
   EditableAttributes = [:email, :name].freeze
 
-  delegate :id, :email, :name, :created_at, to: :user
+  delegate :id, :email, :name, :created_at, :image_url, to: :user
 
   def initialize(user)
     @user = user

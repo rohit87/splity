@@ -1,6 +1,7 @@
 Splity::Application.routes.draw do
   
   resources :users do
+
     member do
       get :friends
       post :friends, :unfriend
@@ -13,13 +14,18 @@ Splity::Application.routes.draw do
   end
 
   match "/login" => "users#authenticate", via: [:get, :post], as: "signin"
+  match "auth/:provider/callback" => "users#authenticate_via_facebook", via: [:get, :post], as: "authenticate_via_facebook"
   match "/logout" => "users#logout", via: :get, as: "logout"
+  match "/users/:id/destroy" => "users#destroy", via: [:get], as: "destroy_user"
 
   # notifications
   match "/notifications_lightbox/" => "notifications#all_notifications_lightbox", via: :get, as: "notifications_lightbox"
   match "/notification/read/:notification_id" => "notifications#read_notification", via: :get, as: "notification_read"
 
   match "/" => "users#home", via: [:get], as: "root"
+
+  # Various Rack Applications
+  mount Resque::Server, at: "/resque"
 
   
   # The priority is based upon order of creation: first created -> highest priority.

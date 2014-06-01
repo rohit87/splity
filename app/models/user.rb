@@ -8,13 +8,14 @@ class User < ActiveRecord::Base
     class_name: "User",
     join_table: "friendships",
     foreign_key: "user_id",
-    association_foreign_key: "friend_id"
+    association_foreign_key: "friend_id",
+    dependent: :destroy
 
   # has_and_belongs_to_many :activities
-  has_many :participations
-  has_many :activities, through: :participations
+  has_many :participations, dependent: :destroy
+  has_many :activities, through: :participations, dependent: :destroy
 
-  has_many :notifications
+  has_many :notifications, dependent: :destroy
 
   # has_many :friends, through: :reverse_friendships
   
@@ -53,6 +54,31 @@ class User < ActiveRecord::Base
 
   has_secure_password
 
+  def self.create_new_user(user)
+    if user.save!
+      user.notifications << WelcomeNotification.new(user)
+      # UserMailer.welcome_email(user).deliver
+      Resque.enqueue(FacebookFriendsImporter, user.id)
+      return true
+    else
+      return false
+    end
+  end
+
+  def self.from_omniauth(auth)
+    User.where(email: auth.info.email, provider: auth.provider).first_or_initialize.tap do |user|
+      puts user.to_json
+      user.external_user_id = auth.uid
+      user.email = auth.info.email
+      user.name = "#{auth.info.first_name} #{auth.info.last_name}"
+      user.password = auth.credentials.token[0..29]
+      user.auth_token = auth.credentials.token
+      user.remember_token = auth.credentials.token
+      user.image_url = auth.info.image
+      return user
+    end
+  end
+
   def patch(field, value)
     validation_result = validate_attribute field, value
     self.update_attribute(field, value) if validation_result[:valid]
@@ -64,8 +90,10 @@ class User < ActiveRecord::Base
   end
 
   def create_friendship!(user)
-    self.friends << user
-    user.friends << self
+    user.transaction do
+      self.friends << user
+      user.friends << self
+    end
   end
 
   def unfriend!(user)
@@ -74,18 +102,11 @@ class User < ActiveRecord::Base
   end
 
   def add_activity!(activity, participations)
-    puts participations.inspect
-
     activity.save!
     participations.each do |participation|
       participation[:activity_id] = activity.id
       Participation.new(participation).save!
     end
-    # self.activities << activity
-    # friend_ids.each do |friend_id|
-    #   activity.users << User.find(friend_id.to_i)
-    # end
-    # activity.users << self
   end
 
   def User.new_remember_token
@@ -96,9 +117,30 @@ class User < ActiveRecord::Base
     Digest::SHA1.hexdigest(token.to_s)
   end
 
+  # Typeof user
+  def is_facebook_user?
+    self.provider == "facebook"
+  end
+
+  # facebook
+  def import_facebook_friends!
+    @graph = Koala::Facebook::API.new(self.auth_token)
+    @friends = @graph.get_connections("me", "friends", api_version: "v2.0")
+    @friends.each do |friend|
+      begin
+        self.create_friendship! User.find_by_external_user_id friend["id"]
+      rescue
+        puts "error creating friendship!"
+      end
+    end
+  end
+
   private
 
     def create_remember_token
+      if self.is_facebook_user?
+        raise "ldksflkdsjflkdsjflsdkf"
+      end
       self.remember_token = User.digest(User.new_remember_token)
     end
 

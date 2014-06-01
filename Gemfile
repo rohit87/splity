@@ -46,6 +46,13 @@ group :development, :test do
   gem 'meta_request'
 end
 
+# OAuth, Facebook et al
+gem 'omniauth-facebook'
+gem 'koala'
+
+# Background Processing
+gem 'resque', require: "resque/server"
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 

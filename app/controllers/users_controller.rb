@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   
-  before_action :signed_in_user, only: [:index, :friends, :unfriend, :logout, :home, :show, :patch]
-  before_action :correct_user, only: [:friends, :patch]
+  before_action :signed_in_user, only: [:index, :friends, :unfriend, :logout, :home, :show, :patch, :destroy]
+  before_action :correct_user, only: [:friends, :patch, :destroy]
   
   def index
     @users = User.paginate page: params[:page], per_page: 10
@@ -21,15 +21,25 @@ class UsersController < ApplicationController
   def home
     @user = current_user
     @dashboard = user_dashboard(current_user)
+
+    if @user.is_facebook_user?
+      @graph = Koala::Facebook::API.new(current_user.auth_token)
+      profile = @graph.get_object("me")
+      @friends = @graph.get_connections("me", "friends", api_version: "v2.0")
+      @dashboard[:friends] = @friends
+    end
+
+    @dashboard[:me] = profile
+    @dashboard[:fb_token] = current_user.auth_token
+    
+
     render 'show'
   end
 
   def create
     @user = User.new(user_params)
-    if @user.save
+    if User.create_new_user(@user)
       flash[:success] = "Welcome to SplityApp!"
-      @user.notifications << WelcomeNotification.new(@user)
-      UserMailer.welcome_email(@user).deliver
       redirect_to @user
     else
       render 'new'
@@ -40,6 +50,18 @@ class UsersController < ApplicationController
     redirect_to user_url current_user and return if signed_in?
     render 'users/login' and return if request.get?
     authenticate_user User.find_by(email: params[:user][:email].downcase)
+  end
+
+  def authenticate_via_facebook
+    redirect_to user_url current_user and return if signed_in?
+    user = User.from_omniauth(env["omniauth.auth"])
+    if User.create_new_user(user)
+      flash[:success] = "Welcome to SplityApp!"
+      sign_in user
+      redirect_to user
+    else
+      render 'new'
+    end
   end
 
   def logout
@@ -73,6 +95,12 @@ class UsersController < ApplicationController
       render :json => { err: true, msg: result[:errors].first }, status: :bad_request
     end
   end
+
+  def destroy
+    current_user.destroy
+    redirect_to root_url
+  end
+
 
   private
 
