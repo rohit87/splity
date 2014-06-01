@@ -6,6 +6,8 @@ Splity::Application.routes.draw do
       post :friends, :unfriend
     end
 
+    match "/patch" => "users#patch", via: [:post], as: "patch_user"
+
     resources :activities
     match "/activities/new" => "activities#create", via: [:post], as: "create_activity"
   end

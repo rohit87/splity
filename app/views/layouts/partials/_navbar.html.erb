@@ -38,7 +38,7 @@
         <% end %>
         <% if signed_in? %>
         <%= render partial: 'layouts/partials/notifications' %>
-        <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= current_user.name %><b class="caret"></b></a>
+        <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span id="lblUserNameNavbar"><%= current_user.name %></span><b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li><a href="<%= user_url(current_user) %>">My Profile</a>
             </li>

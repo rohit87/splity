@@ -2,11 +2,8 @@ class ActivityPresenter
 
   include ActionView::Helpers::NumberHelper
 
-  delegate :id, to: :activity
-  delegate :event, to: :activity
-  delegate :users, to: :activity
-  delegate :created_at, to: :activity
-
+  delegate :id, :event, :users, :created_at, to: :activity
+  
   def initialize(activity)
     @activity = activity
   end

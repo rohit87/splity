@@ -53,6 +53,12 @@ class User < ActiveRecord::Base
 
   has_secure_password
 
+  def patch(field, value)
+    validation_result = validate_attribute field, value
+    self.update_attribute(field, value) if validation_result[:valid]
+    validation_result
+  end
+
   def is_friends_of?(user)
     self.friends.include? user
   end
@@ -94,6 +100,20 @@ class User < ActiveRecord::Base
 
     def create_remember_token
       self.remember_token = User.digest(User.new_remember_token)
+    end
+
+    def validate_attribute(attr, value)
+      mock = User.new(attr => value)
+      if !mock.valid?
+        return {
+          valid: !mock.errors.has_key?(attr),
+          errors: mock.errors.full_messages_for(attr)
+        }
+      end
+      return {
+        valid: true,
+        errors: []
+      }
     end
 
 end

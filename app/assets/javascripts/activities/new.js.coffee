@@ -1,5 +1,4 @@
 $ ->
-  # return if params.controller isnt "activities" or params.action isnt "new"
 
   friends = JSON.parse($('#jsonFriends').html())
   participants = JSON.parse($('#jsonParticipants').html())
@@ -29,6 +28,9 @@ class CreateActivityForm extends BaseView
     
     @initializeUI()
     @bindEvents()
+
+    window.onunload = () ->
+      "Yo, you have not saved your activity yet, are you sure you want to leave?"
 
   initializeUI: () ->
     $('#inputFriends').chosen({
@@ -145,7 +147,6 @@ class ParticipantCollection
       participant.data.amountReimbursed = 0
 
     # simple greedy algo
-    # while totalAmount - amountCollected < 2
     for participant in peopleWhoHaveToPay
       amountToPay = amountPerHead - participant.data.amount
       paymentReceiver = (receiver for receiver in peopleWhoDoNotHaveToPay when receiver.data.amountReimbursed isnt (receiver.data.amount - amountPerHead))
@@ -207,11 +208,6 @@ class Participant extends BaseView
     if editMode is off
       @inputAmount.attr('readonly', 'readonly').attr('placeholder', "#{@data.name} did not pay anything.")
 
-  # refreshModel: () ->
-  #   @data.amountEditable = (not @data.dutch) or @data.paid
-  #   console.log "amount editable: #{@data.amountEditable}"
-  #   @
-
   cacheUIControls: () ->
     @inputAmount ?= $ "#txtAmount_#{@data.id}", @container
     @amountOwed ?= $ "#lblAmountOwed_#{@data.id}", @container
@@ -219,10 +215,8 @@ class Participant extends BaseView
   renderTo: ($container) ->
     @container = $container if $container?
     @container.html TemplateProvider.get(@template).render @data
-    # @refreshModel()
     @state = $.extend {}, @data
     @cacheUIControls()
-    # @setAmountOwed 123, "LOL"
     $('input[type=checkbox]', @container).bootstrapSwitch({
       onText: "Paid"
       offText: "Nope"
@@ -233,26 +227,5 @@ class Participant extends BaseView
       @inputAmount.blur()
       @data.paid = data.value
       @setAmountFieldMode data.value
-      # @update()
       setTimeout (() => @inputAmount.focus()), 0
     @bindEvents()
-
-  # update: () ->
-  #   return true unless @container?
-  #   if not @state?
-  #     @renderTo @container
-  #     return @
-  #   @refreshModel()
-  #   changedAttributes = []
-  #   current = $.extend {}, @state, @data
-  #   for key of current
-  #     if @data[key] isnt @state[key]
-  #       changedAttributes.push key
-  #   for attribute in changedAttributes
-  #     switch attribute
-  #       when "amount"
-  #         @updateAmount(@data[attribute])
-  #       when "amountEditable"
-  #         @setAmountFieldMode(@data[attribute])
-  #   @state = $.extend {}, @data
-  #   @

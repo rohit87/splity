@@ -12,12 +12,8 @@
 
 <body>
 
-<script type="text/javascript">
-  var params = {
-    controller: "<%= params[:controller] %>",
-    action: "<%= raw params[:action] %>"
-  }
-</script>
+<% dump_to_js({ controller: params[:controller], action: params[:action] }, "params") %>
+<% dump_to_js({ id: current_user.id }, "current_user") if signed_in? %>
 
   <%= render partial: '/layouts/partials/navbar' %>
 
@@ -57,5 +53,6 @@
   <% if GlobalConstants::JavascriptsProvided[params[:controller]] == params[:action] %>
     <%= javascript_include_tag "#{params[:controller]}/#{params[:action]}" %>
   <% end %>
+  <%= finalize_javascripts %>
 </body>
 </html>

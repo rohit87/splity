@@ -1,0 +1,30 @@
+<% user_profile ||= UserProfilePresenter.new(user) %>
+
+<div class="row">
+
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h1>
+      <%= gravatar_for user_profile %>
+      <span id="lblName"><%= user_profile.name %></span>
+    </h1>
+  </div>
+
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <table class="table table-striped table-bordered table-condensed">
+    <% UserProfilePresenter::VisibleAttributes.each do |field| %>
+    <tr>
+      <th><%= field.to_s.humanize %></th>
+      <td><%= user_profile.get_field(field, (params[:id].blank? || params[:id] == current_user.id)) %></td>
+    </tr>
+    <% end %>
+    </table>
+  </div>
+
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h3>Member since</h3>
+    <%= user_profile.member_since %>
+  </div>
+
+</div>
+
+<% dump_to_js(user_profile.patch_user_path, "patch_user_path") %>

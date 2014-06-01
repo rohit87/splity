@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   
-  before_action :signed_in_user, only: [:index, :friends, :unfriend, :logout, :home, :show]
-  before_action :correct_user, only: [:friends]
+  before_action :signed_in_user, only: [:index, :friends, :unfriend, :logout, :home, :show, :patch]
+  before_action :correct_user, only: [:friends, :patch]
   
   def index
     @users = User.paginate page: params[:page], per_page: 10
@@ -63,6 +63,15 @@ class UsersController < ApplicationController
     friend = User.find params[:friend][:id]
     current_user.unfriend! friend
     redirect_to friends_user_url current_user
+  end
+
+  def patch
+    result = current_user.patch params[:name].to_sym, params[:value]
+    if result[:valid]
+      render :json => { err: nil }
+    else
+      render :json => { err: true, msg: result[:errors].first }, status: :bad_request
+    end
   end
 
   private
