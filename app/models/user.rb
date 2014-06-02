@@ -3,18 +3,19 @@ class User < ActiveRecord::Base
   #has_many :friendships, foreign_key: "user_id", dependent: :destroy
   #has_many :reverse_friendships, foreign_key: "friend_id", dependent: :destroy, class_name: "Friendship"
 
-  #has_many :friends, through: :friendships
+  # Friends
+  # TODO: Convert this to a has_many :through
   has_and_belongs_to_many :friends,
     class_name: "User",
     join_table: "friendships",
     foreign_key: "user_id",
-    association_foreign_key: "friend_id",
-    dependent: :destroy
+    association_foreign_key: "friend_id"
 
-  # has_and_belongs_to_many :activities
+  # Activities
   has_many :participations, dependent: :destroy
   has_many :activities, through: :participations, dependent: :destroy
 
+  # Notifications
   has_many :notifications, dependent: :destroy
 
   # has_many :friends, through: :reverse_friendships
@@ -48,9 +49,9 @@ class User < ActiveRecord::Base
     self.email = email.downcase
   }
 
-  before_create {
-    :create_remember_token
-  }
+  before_create :create_remember_token
+
+  before_destroy :unfriend_everyone!
 
   has_secure_password
 
@@ -66,7 +67,7 @@ class User < ActiveRecord::Base
   end
 
   def self.from_omniauth(auth)
-    User.where(email: auth.info.email, provider: auth.provider).first_or_initialize.tap do |user|
+    User.where(email: auth.info.email, provider: auth.provider, external_user_id: auth.uid).first_or_initialize.tap do |user|
       puts user.to_json
       user.external_user_id = auth.uid
       user.email = auth.info.email
@@ -99,6 +100,14 @@ class User < ActiveRecord::Base
   def unfriend!(user)
     self.friends = self.friends - [ user ]
     user.friends = user.friends - [ self ]
+  end
+
+  def unfriend_everyone!
+    self.transaction do
+      self.friends.each do |friend|
+        self.unfriend! friend
+      end
+    end
   end
 
   def add_activity!(activity, participations)
@@ -139,9 +148,10 @@ class User < ActiveRecord::Base
 
     def create_remember_token
       if self.is_facebook_user?
-        raise "ldksflkdsjflkdsjflsdkf"
+        self.remember_token = self.auth_token
+      else
+        self.remember_token = User.digest(User.new_remember_token)
       end
-      self.remember_token = User.digest(User.new_remember_token)
     end
 
     def validate_attribute(attr, value)

@@ -53,6 +53,10 @@ gem 'koala'
 # Background Processing
 gem 'resque', require: "resque/server"
 
+# Performance Profiling
+gem 'ruby-prof'
+gem 'newrelic_rpm'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 

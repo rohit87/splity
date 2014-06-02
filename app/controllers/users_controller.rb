@@ -6,7 +6,6 @@ class UsersController < ApplicationController
   def index
     @users = User.paginate page: params[:page], per_page: 10
     redirect_to users_path and return if @users.empty?
-    render 'users/list'
   end
 
   def new
@@ -22,17 +21,14 @@ class UsersController < ApplicationController
     @user = current_user
     @dashboard = user_dashboard(current_user)
 
-    if @user.is_facebook_user?
+    if false && @user.is_facebook_user?
+      @dashboard[:fb_token] = current_user.auth_token
       @graph = Koala::Facebook::API.new(current_user.auth_token)
-      profile = @graph.get_object("me")
+      @profile = @graph.get_object("me")
       @friends = @graph.get_connections("me", "friends", api_version: "v2.0")
+      @dashboard[:me] = @profile
       @dashboard[:friends] = @friends
     end
-
-    @dashboard[:me] = profile
-    @dashboard[:fb_token] = current_user.auth_token
-    
-
     render 'show'
   end
 
@@ -55,8 +51,9 @@ class UsersController < ApplicationController
   def authenticate_via_facebook
     redirect_to user_url current_user and return if signed_in?
     user = User.from_omniauth(env["omniauth.auth"])
+    is_new_user = user.new_record?
     if User.create_new_user(user)
-      flash[:success] = "Welcome to SplityApp!"
+      if is_new_user then flash[:success] = "Welcome to SplityApp!" end
       sign_in user
       redirect_to user
     else
@@ -150,9 +147,9 @@ class UsersController < ApplicationController
         payments: payments,
         incoming: incoming,
         debts: debts,
-        total_debt: debts.collect{|d| d[:amount_owed]}.reduce(:+),
-        total_paid: payments.collect{|d| d[:amount_paid]}.reduce(:+),
-        total_amount: payments.collect{|d| d[:total_amount]}.reduce(:+)
+        total_debt: debts.collect{|d| d[:amount_owed]}.reduce(:+) || 0,
+        total_paid: payments.collect{|d| d[:amount_paid]}.reduce(:+) || 0,
+        total_amount: payments.collect{|d| d[:total_amount]}.reduce(:+) || 0
       }
     end
 
