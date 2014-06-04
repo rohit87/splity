@@ -26,6 +26,7 @@ Splity::Application.routes.draw do
 
   # Various Rack Applications
   mount Resque::Server, at: "/resque"
+  mount JasmineRails::Engine => "/specs" if defined?(JasmineRails)
 
   
   # The priority is based upon order of creation: first created -> highest priority.

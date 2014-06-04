@@ -15,7 +15,11 @@
 // require turbolinks
 // require_tree .
 //
+//= require uuid
+//= require cache
+//
 //= require mustache
+//= require underscore
 //= require common
 //= require TemplateProvider
 //
@@ -24,6 +28,7 @@
 //= require bootstrap-datepicker
 //= require bootstrap-switch
 //= require bootstrap-editable.min
+//= require typeahead.bundle
 //= require spin
 //
 //= require raphael

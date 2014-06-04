@@ -44,6 +44,7 @@ group :development, :test do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'meta_request'
+  gem 'jasmine'
 end
 
 # OAuth, Facebook et al

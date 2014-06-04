@@ -34,7 +34,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    if User.create_new_user(@user)
+    if User.create_or_update_user(@user)
       flash[:success] = "Welcome to SplityApp!"
       redirect_to @user
     else
@@ -52,7 +52,7 @@ class UsersController < ApplicationController
     redirect_to user_url current_user and return if signed_in?
     user = User.from_omniauth(env["omniauth.auth"])
     is_new_user = user.new_record?
-    if User.create_new_user(user)
+    if User.create_or_update_user(user)
       if is_new_user then flash[:success] = "Welcome to SplityApp!" end
       sign_in user
       redirect_to user

@@ -42,6 +42,23 @@ class CreateActivityForm extends BaseView
       autoclose: true
       todayHighlight: true
     }).datepicker('setDate', new Date)
+    $('#inputLocation').typeahead {
+        hint: true,
+        highlight: true,
+        minLength: 1
+      }, {
+        name: 'google-places'
+        displayKey: 'description'
+        source: (query, callback) ->
+          if googlePlacesCache.hasKey query
+            console.log "hit for #{query}"
+            callback JSON.parse googlePlacesCache.get query
+            return
+          googlePlacesService.getPlacePredictions { input: query }, (predictions, status) ->
+            return if status isnt google.maps.places.PlacesServiceStatus.OK
+            googlePlacesCache.set query, JSON.stringify predictions
+            callback predictions
+      }
 
   events: {
     'change #inputFriends': 'onAddRemoveParticipant',

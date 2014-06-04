@@ -55,11 +55,14 @@ class User < ActiveRecord::Base
 
   has_secure_password
 
-  def self.create_new_user(user)
+  def self.create_or_update_user(user)
+    is_new_user = user.new_record?
     if user.save!
-      user.notifications << WelcomeNotification.new(user)
-      # UserMailer.welcome_email(user).deliver
-      Resque.enqueue(FacebookFriendsImporter, user.id)
+      if is_new_user 
+        user.notifications << WelcomeNotification.new(user)
+        UserMailer.welcome_email(user).deliver
+        Resque.enqueue(FacebookFriendsImporter, user.id)
+      end
       return true
     else
       return false
