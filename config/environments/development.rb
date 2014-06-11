@@ -37,7 +37,7 @@ Splity::Application.configure do
               Dir.chdir(current_file) do |directory|
                   Dir.foreach(directory) do |inner_file|
                       next if inner_file == '.' or inner_file == '..'
-                      javascripts_provided["#{file}"] = "#{inner_file.gsub('.js', '').gsub('.erb', '').gsub('.coffee', '')}"
+                      javascripts_provided["#{file}"] = "#{inner_file.gsub('.js', '').gsub('.erb', '').gsub('.coffee', '').gsub('.litcoffee','')}"
                   end
               end
           end

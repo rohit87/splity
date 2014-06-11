@@ -2,6 +2,8 @@ class UsersController < ApplicationController
   
   before_action :signed_in_user, only: [:index, :friends, :unfriend, :logout, :home, :show, :patch, :destroy]
   before_action :correct_user, only: [:friends, :patch, :destroy]
+
+  protect_from_forgery :except => [:authenticate_via_app]
   
   def index
     @users = User.paginate page: params[:page], per_page: 10
@@ -15,6 +17,7 @@ class UsersController < ApplicationController
   def show
     redirect_to root_url and return if current_user.id.to_s == params[:id]
     @user = User.find(params[:id])
+    @common_activities = @current_user.activities_with @user
   end
 
   def home
@@ -45,7 +48,20 @@ class UsersController < ApplicationController
   def authenticate
     redirect_to user_url current_user and return if signed_in?
     render 'users/login' and return if request.get?
-    authenticate_user User.find_by(email: params[:user][:email].downcase)
+    authenticate_user(User.find_by(email: params[:user][:email].downcase), params[:user][:password])
+  end
+
+  def authenticate_via_app
+    render json: {
+      user: User.get(current_user.id),
+      success: true
+    } and return if signed_in?
+    puts "Signing in new user"
+    result = authenticate_app_user(User.find_by(email: params[:user][:email]), params[:user][:password])
+    render json: {
+      success: result[:success],
+      user: result[:user]
+    }
   end
 
   def authenticate_via_facebook
@@ -64,6 +80,12 @@ class UsersController < ApplicationController
   def logout
     sign_out
     redirect_to signin_url
+  end
+
+  def friends_app
+    render json: {
+
+    }
   end
 
   def friends

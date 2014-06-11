@@ -22,7 +22,7 @@ class ActivitiesController < ApplicationController
       redirect_to new_user_activity_url and return
     end
     flash[:success] = "Noted."
-    current_user.add_activity! @activity, params[:activity][:participants]
+    current_user.add_activity! @activity, sanitized_participants
     redirect_to current_user
   end
 
@@ -32,8 +32,16 @@ class ActivitiesController < ApplicationController
 
   private
     def get_activity_from_params
-      params[:activity][:participants] = ActiveSupport::JSON.decode params[:activity][:participants]
-      params.require(:activity).permit(:event, :location, :amount, :currency, :participants)
+      params[:activity][:participants] = JSON.parse params[:activity][:participants]
+      params.require(:activity).permit(:event, :location, :amount, :currency, :date)
+    end
+
+    def sanitized_participants
+      participants = []
+      params[:activity][:participants].each do |participation|
+        participants << participation.permit(:user_id, :amount_paid, :activity_id, :amount_owed, :amount_owed_to)
+      end
+      participants
     end
 
 end

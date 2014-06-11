@@ -1,78 +1,17 @@
-<% if @user.id == current_user.id %>
-  
-  <div class="row" style="margin-bottom: 10px;">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <ul class="nav nav-tabs">
-        <li class="active"><a href="#dashboard" data-toggle="tab">Dashboard</a></li>
-        <li><a href="#amountOwed" data-toggle="tab">Breakdowns</a></li>
-        <li><a href="#profile" data-toggle="tab">My Profile</a></li>
-      </ul>
-    </div>
-  </div>
-  <script type="text/javascript">$(function () { setTimeout(function () { $('[href="#profile"]').click(); }, 0); });</script>
-
-  <div class="tab-content">
-    <div class="tab-pane row" id="dashboard">
-      <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-aqua">
-          <div class="inner">
-            <h3><%= @dashboard[:total_debt].to_i %></h3>
-            <p>Total Debt</p>
-          </div>
-          <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-        </div>
-      </div>
-      <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-green">
-          <div class="inner">
-            <h3><%= @dashboard[:total_paid] %></h3>
-            <p>Total Paid</p>
-          </div>
-          <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-        </div>
-      </div>
-      <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-yellow">
-          <div class="inner">
-            <h3><%= @dashboard[:total_amount] %></h3>
-            <p>Total Bills</p>
-          </div>
-          <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-        </div>
-      </div>
-      <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-red">
-          <div class="inner">
-            <h3><%= @dashboard[:participations].length %></h3>
-            <p>Total Activities</p>
-          </div>
-          <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-        </div>
-      </div>
-    </div>
-
-    <div class="tab-pane" id="amountOwed">
-      <div class="row">
-        <div class="col-lg-6" style="height: 250px" id="divAmountDue"></div>
-        <div class="col-lg-6" style="height: 250px" id="divAmountOwed"></div>
-      </div>
-
-      <div class="row">
-        <div class="col-lg-6" style="height: 250px;" id="divProportionalAmountPaid"></div>
-      </div>
-    </div>
-  <% end %>
-
-  <div class="tab-pane" id="profile">
-
+<div class="row">
+  <div id="profile">
     <%= render partial: '/users/partials/user_profile', locals: { user: @user } %>
-    
-    <% if @user.id == current_user.id %>
-      <%= link_to "Activities", user_activities_url(current_user), class: "btn btn-primary" %>
-      <%= link_to "Friends", friends_user_url(current_user), class: "btn btn-primary" %>
-    <% end %>
-
   </div>
 </div>
+
+<% if @user.id == current_user.id %>
+  <%= render partial: "/users/partials/dashboard" %>  
+<% end %>
+
+<% if @user.id != current_user.id %>
+  <%= render partial: "/users/partials/common_activities", locals: { activities: @common_activities } %>  
+<% end %>
+
+
 
 <% dump_to_js @dashboard, 'dashboard' %>

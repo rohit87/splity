@@ -2,8 +2,14 @@
 <html>
 <head>
   <title>Splity</title>
+
   <%= stylesheet_link_tag    "application", media: "all" %>
   
+  <script type="text/javascript">
+    var params = <%= { controller: params[:controller], action: params[:action] }.to_json.html_safe %>
+    var current_user = <%= signed_in? ? { id: current_user.id }.to_json.html_safe : {}.to_json %>
+  </script>
+
   <%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true" %>
   <%= javascript_include_tag "application" %>
 
@@ -15,9 +21,6 @@
 
 <body>
 
-<% dump_to_js({ controller: params[:controller], action: params[:action] }, "params") %>
-<% dump_to_js({ id: current_user.id }, "current_user") if signed_in? %>
-
   <%= render partial: '/layouts/partials/navbar' %>
 
   <div class="container">
@@ -27,6 +30,14 @@
         <div class="col-lg-6">
           <h1>Simplex</h1>
           <p class="lead">Mini and minimalist</p>
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <% if signed_in? %>
+            <%= link_to "Activities", user_activities_url(current_user), class: "btn btn-primary" %>
+            <%= link_to "Friends", friends_user_url(current_user), class: "btn btn-primary" %>
+            <a href="javascript:void(0)" onclick="runnit()">Delete your account!</a>
+          <% end %>
         </div>
       </div>
     </div>
@@ -42,6 +53,11 @@
     <%= yield %>
 
   </div>
+
+  <!-- Common -->
+  <rubbbish>
+    <%= render partial: "/partials/modal" %>
+  </rubbbish>
 
   <% if Rails.env.development? %>
   <div class="well well-lg col-lg-8 col-lg-offset-2">

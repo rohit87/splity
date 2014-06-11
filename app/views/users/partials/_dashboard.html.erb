@@ -1,0 +1,30 @@
+<div class="row" style="margin-bottom: 10px;">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#dashboard" data-toggle="tab">Dashboard</a></li>
+      <li><a href="#amountOwed" data-toggle="tab">Graphs and shit</a></li>
+    </ul>
+  </div>
+</div>
+<script type="text/javascript">$(function () { setTimeout(function () { $('[href="#profile"]').click(); }, 0); });</script>
+
+<div class="tab-content">
+  
+  <div class="tab-pane row" id="dashboard">
+    <p>Total Debt: <%= @dashboard[:total_debt].to_i %></p>
+    <p>Total Paid: <%= @dashboard[:total_paid] %></p>    
+    <p>Total Bills: <%= @dashboard[:total_amount] %></p>
+    <p>Total Activities: <%= @dashboard[:participations].length %></p>
+  </div>
+
+  <div class="tab-pane" id="amountOwed">
+    <div class="row">
+      <div class="col-lg-6" style="height: 250px" id="divAmountDue"></div>
+      <div class="col-lg-6" style="height: 250px" id="divAmountOwed"></div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6" style="height: 250px;" id="divProportionalAmountPaid"></div>
+    </div>
+  </div>
+</div>

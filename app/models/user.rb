@@ -61,7 +61,7 @@ class User < ActiveRecord::Base
       if is_new_user 
         user.notifications << WelcomeNotification.new(user)
         UserMailer.welcome_email(user).deliver
-        Resque.enqueue(FacebookFriendsImporter, user.id)
+        Resque.enqueue(FacebookFriendsImporter, user.id) if user.is_facebook_user?
       end
       return true
     else
@@ -119,6 +119,10 @@ class User < ActiveRecord::Base
       participation[:activity_id] = activity.id
       Participation.new(participation).save!
     end
+  end
+
+  def activities_with(*users)
+    Activity.includes(:users).where(users: { id: users.map(&:id) })
   end
 
   def User.new_remember_token

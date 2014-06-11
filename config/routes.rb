@@ -14,6 +14,7 @@ Splity::Application.routes.draw do
   end
 
   match "/login" => "users#authenticate", via: [:get, :post], as: "signin"
+  match "/login_app" => "users#authenticate_via_app", via: [:get, :post], as: "authenticate_via_app"
   match "auth/:provider/callback" => "users#authenticate_via_facebook", via: [:get, :post], as: "authenticate_via_facebook"
   match "/logout" => "users#logout", via: :get, as: "logout"
   match "/users/:id/destroy" => "users#destroy", via: [:get], as: "destroy_user"

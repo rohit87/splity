@@ -1,5 +1,7 @@
 window.googlePlacesCache = CacheProvider.getCache 'google-places-cache'
 
+return unless params.controller is "activities"
+
 if navigator.geolocation? and window.google?
   navigator.geolocation.getCurrentPosition (position) ->
     coordinates = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)

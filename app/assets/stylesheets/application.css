@@ -9,13 +9,15 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require_tree .
+ *= require bootstrap.min
+ * require bootstrap.overrides
  * require AdminLTE
  *= require chosen
- *= require sb-admin
+ * require sb-admin
  *= require social-buttons
  *= require bootstrap-switch
  *= require datepicker3
  *= require morris
  *= require bootstrap-editable
+ *= require bootstrap-typeahead
  */

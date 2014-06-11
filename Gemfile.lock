@@ -88,7 +88,6 @@ GEM
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     mysql2 (0.3.16)
-    newrelic_rpm (3.7.1.188)
     oauth2 (0.9.4)
       faraday (>= 0.8, < 0.10)
       jwt (~> 1.0)
@@ -201,7 +200,6 @@ DEPENDENCIES
   koala
   meta_request
   mysql2
-  newrelic_rpm
   omniauth-facebook
   pry
   rails (= 4.1.0)

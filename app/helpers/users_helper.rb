@@ -6,8 +6,8 @@ module UsersHelper
       image_tag(image_url, alt: user.name, class: "img-thumbnail", height: 80, width: 80)
     end
 
-    def authenticate_user(user)
-      if user && user.authenticate(params[:user][:password])
+    def authenticate_user(user, password)
+      if user && user.authenticate(password)
         sign_in user
         redirect_to user
       else
@@ -16,7 +16,21 @@ module UsersHelper
       end
     end
 
-    def sign_in(user)
+    def authenticate_app_user(user, password)
+      if user && user.authenticate(password)
+        sign_in(user, { from_app?: true })
+        return {
+          success: true,
+          user: current_user,
+        }
+      else
+        return {
+          success: false
+        }
+      end
+    end
+
+    def sign_in(user, options={})
       remember_token = User.new_remember_token
       cookies.permanent[:splity_session] = remember_token
       user.update_attribute(:remember_token, User.digest(remember_token))
@@ -38,7 +52,8 @@ module UsersHelper
     end
 
     def current_user
-      remember_token = User.digest cookies[:splity_session]
+      splity_session = cookies[:splity_session] || params[:splity_session]
+      remember_token = User.digest splity_session
       @current_user ||= User.find_by remember_token: remember_token
     end
 

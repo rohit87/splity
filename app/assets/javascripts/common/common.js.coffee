@@ -1,4 +1,4 @@
-class BaseView
+class @BaseView
 
   constructor: () ->
 
@@ -23,7 +23,7 @@ class BaseView
 
 
 
-class BaseCollection
+class @BaseCollection
 
   constructor: (@items) ->
 
@@ -31,6 +31,19 @@ class BaseCollection
     (item for item in @items when item.id is id)[0]
 
 
-# exports
-window.BaseCollection = BaseCollection
-window.BaseView = BaseView
+
+
+# Adding a namespacing utility function. Makes sure that the namespace hierarchy exists 
+# Usage: namespace("a.b.c.d.e");
+# @author: Rohit Garg, ported to coffeescript by Biswarup Chakravarty
+# @date: 24 Dec 2013, ported: 11 June 2014
+
+@namespace = (namespace) ->
+  object = @
+  tokens = namespace.split "."
+
+  until tokens.length is 0
+    token = tokens.shift()
+    object[token] = {} if not object[token]?
+    object = object[token];
+  object

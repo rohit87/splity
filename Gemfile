@@ -39,6 +39,11 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+group :assets do
+  # Disabled. Could not hook into the sprocket engine. Fuck.
+  # gem 'tilt', github: 'skalee/tilt', branch: 'literate-coffee-script-support'
+end
+
 group :development, :test do
   gem 'pry'
   gem 'better_errors'
@@ -56,7 +61,7 @@ gem 'resque', require: "resque/server"
 
 # Performance Profiling
 gem 'ruby-prof'
-gem 'newrelic_rpm'
+# gem 'newrelic_rpm'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
