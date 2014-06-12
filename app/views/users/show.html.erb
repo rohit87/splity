@@ -9,7 +9,7 @@
 <% end %>
 
 <% if @user.id != current_user.id %>
-  <%= render partial: "/users/partials/common_activities", locals: { activities: @common_activities } %>  
+  <%= render partial: "/users/partials/common_activities", locals: { activities: current_user.activities_with(@user) } %>  
 <% end %>
 
 

@@ -122,7 +122,7 @@ class User < ActiveRecord::Base
   end
 
   def activities_with(*users)
-    Activity.includes(:users).where(users: { id: users.map(&:id) })
+    Activity.includes(:users).where(users: { id: users.map(&:id) }).order({ date: :desc })
   end
 
   def User.new_remember_token

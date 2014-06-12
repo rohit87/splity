@@ -1,0 +1,50 @@
+<%# Refer: http://www.bootply.com/sXQ6tveRH6 %>
+<% require 'date' %>
+
+<h1><%= ActivityTimelinePresenter.new.timeline_title params %></h1>
+<ul class="timeline">
+  <% activities.map {|x| ActivityPresenter.new(x)}.each_with_index do |activity_presenter, index| %>
+  <li <%= "class=timeline-inverted" if index % 2 == 0 %>>
+    <div class="timeline-badge info"><i class="glyphicon glyphicon-star"> </i> </div>
+    <div class="timeline-panel">
+      <div class="timeline-heading clearfix">
+        <div class="clearfix">
+          <h4 class="timeline-title pull-left"><%= "#{activity_presenter.event}" %></h4>
+          <p>
+            <small class="text-muted pull-right">
+              <i class="glyphicon glyphicon-time"></i> 
+              <a href="javascript:void(0)" class="text-info popover-date" data-date="<%= activity_presenter.raw_date.to_s %>"><%= activity_presenter.date %></a>
+            </small>
+          </p>
+        </div>
+        <hr style="margin: 8px 0">
+      </div>
+      <div class="timeline-body">
+        <i class="glyphicon glyphicon-map-marker"></i> <a href="javascript:void(0)" class="text-info popover-location"><%= "#{activity_presenter.location}" %></a>
+        <h5><%= raw "#{activity_presenter.formatted_total_amount}" %></h5>
+        <hr style="margin: 8px 0">
+        <p>
+          <% for user in activity_presenter.users_except current_user do %>
+            <a href="javascript:void(0)" class="popover-person" data-id="<%= user.id %>">
+              <img src="<%= profile_picture_url_for user %>" class="img-circle" width="52" title="<%= user.name %>" alt="<%= user.name %>">
+            </a>
+          <% end %>
+        </p>
+      </div>
+    </div>
+  </li>
+  <% end %>
+</ul>
+
+<script type="text/x-template" id="tmplActivityDatePopover">
+
+  <div class="list-group">
+    <a href="#" class="list-group-item list-group-item-info">View all your activities on same day</a>
+  </div>
+  <a href="#" class="btn btn-primary">View all your activities on same day</a>
+
+</script>
+
+<script type="text/x-template" id="tmplActivityLocationPopover">
+  <a href="#" class="btn btn-primary">View all your activities here</a>
+</script>

@@ -1,8 +1,9 @@
 class ActivityPresenter
 
   include ActionView::Helpers::NumberHelper
+  include ActionView::Helpers::TextHelper
 
-  delegate :id, :event, :users, :created_at, to: :activity
+  delegate :id, :event, :users, :date, to: :activity
   
   def initialize(activity)
     @activity = activity
@@ -12,12 +13,21 @@ class ActivityPresenter
     activity.location
   end
 
+  def truncated_location
+    truncate(activity.location, separator: ' ')
+  end
+
+  def raw_date
+    activity.date
+  end
+
   def date
-    Date.parse(activity.created_at.strftime('%Y/%m/%d')).to_formatted_s(:long_ordinal)
+    Date.parse(activity.date.strftime('%Y/%m/%d')).to_formatted_s(:long_ordinal)
   end
 
   def users_except(user)
-    activity.users.where.not(id: user.id).select(:name).to_a.map(&:name).to_sentence
+    activity.users.where.not(id: user.id) # this is the best
+    # User.includes(:activities).where.not(id: user.id).where(activities: { id: id }).pluck(:name).to_sentence
   end
 
   def formatted_total_amount

@@ -17,7 +17,6 @@ class UsersController < ApplicationController
   def show
     redirect_to root_url and return if current_user.id.to_s == params[:id]
     @user = User.find(params[:id])
-    @common_activities = @current_user.activities_with @user
   end
 
   def home

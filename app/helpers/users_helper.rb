@@ -6,6 +6,10 @@ module UsersHelper
       image_tag(image_url, alt: user.name, class: "img-thumbnail", height: 80, width: 80)
     end
 
+    def profile_picture_url_for(user)
+      user.image_url.nil? ? "https://secure.gravatar.com/avatar/#{Digest::MD5::hexdigest(user.email.downcase)}" : user.image_url
+    end
+
     def authenticate_user(user, password)
       if user && user.authenticate(password)
         sign_in user

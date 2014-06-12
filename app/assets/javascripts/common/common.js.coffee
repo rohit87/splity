@@ -47,3 +47,9 @@ class @BaseCollection
     object[token] = {} if not object[token]?
     object = object[token];
   object
+
+@to_params = (o, name) ->
+    result = []
+    name ?= 'params'
+    result.push "#{name}[#{key}]=#{o[key]}" for key, value of o
+    return result.join '&'
