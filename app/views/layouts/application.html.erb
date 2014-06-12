@@ -25,22 +25,7 @@
 
   <div class="container">
   
-    <div class="page-header" id="banner">
-      <div class="row">
-        <div class="col-lg-6">
-          <h1>Simplex</h1>
-          <p class="lead">Mini and minimalist</p>
-        </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <% if signed_in? %>
-            <%= link_to "Activities", user_activities_url(current_user), class: "btn btn-primary" %>
-            <%= link_to "Friends", friends_user_url(current_user), class: "btn btn-primary" %>
-            <a href="javascript:void(0)" onclick="runnit()">Delete your account!</a>
-          <% end %>
-        </div>
-      </div>
-    </div>
+    <%= render partial: "/layouts/partials/common_page_header" %>
     
     <% flash.each do |key, value| %>
     <div class="alert alert-dismissable alert-<%= key %>">
@@ -59,7 +44,7 @@
     <%= render partial: "/partials/modal" %>
   </rubbbish>
 
-  <% if Rails.env.development? %>
+  <!-- <% if Rails.env.development? %>
   <div class="well well-lg col-lg-8 col-lg-offset-2">
     <%= debug(params) %>
   </div>
@@ -68,7 +53,7 @@
     <pre><code><script type="text/javascript">document.write(JSON.stringify(<%= raw @dashboard.to_json if @dashboard.present? %>, null, 2))</script></code></pre>
   </div>
   <% end %>
-  <% end %>
+  <% end %> -->
   <% if GlobalConstants::JavascriptsProvided[params[:controller]] == params[:action] %>
     <%= javascript_include_tag "#{params[:controller]}/#{params[:action]}" %>
   <% end %>

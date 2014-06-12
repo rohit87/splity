@@ -1,0 +1,27 @@
+<div class="page-header" id="banner">
+  <div class="row">
+    <div class="col-lg-6">
+      <h1>Simplex</h1>
+      <p class="lead">Mini and minimalist</p>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <% if signed_in? %>
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+            Quick Links <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><%= link_to "All Activities", user_activities_url(current_user) %></li>
+            <li><%= link_to "My Friends", friends_user_url(current_user) %></li>
+            <li><%= link_to "Create Activity", user_create_activity_path(current_user) %></li>
+            <li class="divider"></li>
+            <li><%= link_to "javascript:void(0)" do
+              content_tag :span, "Delete Your Account", class: "text-danger", onclick: "runnit()"
+            end %></li>
+          </ul>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

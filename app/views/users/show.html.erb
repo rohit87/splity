@@ -1,8 +1,8 @@
-<div class="row">
+<!-- <div class="row">
   <div id="profile">
     <%= render partial: '/users/partials/user_profile', locals: { user: @user } %>
   </div>
-</div>
+</div> -->
 
 <% if @user.id == current_user.id %>
   <%= render partial: "/users/partials/dashboard" %>  
