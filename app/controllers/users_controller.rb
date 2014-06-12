@@ -108,7 +108,7 @@ class UsersController < ApplicationController
   def patch
     result = current_user.patch params[:name].to_sym, params[:value]
     if result[:valid]
-      render :json => { err: nil }
+      render :json => { err: nil, key: params[:name].to_s }
     else
       render :json => { err: true, msg: result[:errors].first }, status: :bad_request
     end

@@ -2,8 +2,8 @@
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <ul class="nav nav-tabs">
       <li class="active"><a href="#dashboard" data-toggle="tab">Dashboard</a></li>
-      <li><a href="#amountOwed" data-toggle="tab">Graphs and shit</a></li>
       <li><a href="#tabProfile" data-toggle="tab">My Profile</a></li>
+      <li><a href="#amountOwed" data-toggle="tab">Graphs and shit</a></li>
     </ul>
   </div>
 </div>
@@ -18,6 +18,12 @@
     <p>Total Activities: <%= @dashboard[:participations].length %></p>
   </div>
 
+  <div class="tab-pane" id="tabProfile">
+    <div class="row" id="profile">
+      <%= render partial: '/users/partials/user_profile', locals: { user: @user } %>
+    </div>
+  </div>
+
   <div class="tab-pane" id="amountOwed">
     <div class="row">
       <div class="col-lg-6" style="height: 250px" id="divAmountDue"></div>
@@ -25,12 +31,6 @@
     </div>
     <div class="row">
       <div class="col-lg-6" style="height: 250px;" id="divProportionalAmountPaid"></div>
-    </div>
-  </div>
-
-  <div class="tab-pane" id="tabProfile">
-    <div class="row" id="profile">
-      <%= render partial: '/users/partials/user_profile', locals: { user: @user } %>
     </div>
   </div>
 

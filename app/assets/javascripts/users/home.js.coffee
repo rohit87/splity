@@ -51,9 +51,8 @@ $ ->
         type: 'post'
         dataType: 'json'
       },
-      success: (response, newValue) ->
-        console.log "update:#{$this.data 'fieldname'}"
-        $(document).trigger "update:#{$this.data 'fieldname'}", [{ value: newValue }]
+      success: (response, newValue) =>
+        $(document).trigger "update:#{response.key}", [{ value: newValue }]
       error: (response, newValue) ->
         return response.responseJSON.msg;
     }
