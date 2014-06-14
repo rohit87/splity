@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   include StaticAssets::Javascripts
 
   before_filter :initialize_javascripts
-  after_action :finalize_javascripts
+  # after_action :finalize_javascripts
 
 
   include UsersHelper

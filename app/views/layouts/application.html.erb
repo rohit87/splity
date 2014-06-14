@@ -54,9 +54,6 @@
   </div>
   <% end %>
   <% end %> -->
-  <% if GlobalConstants::JavascriptsProvided[params[:controller]] == params[:action] %>
-    <%= javascript_include_tag "#{params[:controller]}/#{params[:action]}" %>
-  <% end %>
-  <%= finalize_javascripts %>
+  <%= dump_page_specific_javascripts.html_safe %>
 </body>
 </html>

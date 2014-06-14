@@ -23,7 +23,9 @@ Splity::Application.routes.draw do
   match "/notifications_lightbox/" => "notifications#all_notifications_lightbox", via: :get, as: "notifications_lightbox"
   match "/notification/read/:notification_id" => "notifications#read_notification", via: :get, as: "notification_read"
 
-  match "/" => "users#home", via: [:get], as: "root"
+  # match "/" => "users#home", via: [:get], as: "root"
+  match "/" => "users#homepage", via: [:get], as: "root"
+  match "/homepage" => "users#homepage", via: [:get], as: "homepage"
 
   # Various Rack Applications
   mount Resque::Server, at: "/resque"

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Splity</title>
+    <%= stylesheet_link_tag "application", "//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css", media: "all" %>
+    <script type="text/javascript">
+      var params = <%= { controller: params[:controller], action: params[:action] }.merge!(params).to_json.html_safe %>
+      var current_user = <%= signed_in? ? { id: current_user.id }.to_json.html_safe : {}.to_json %>
+    </script>
+    <%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true", "application" %>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <%= render partial: '/layouts/partials/navbar' %>
+    <%= render partial: "/layouts/partials/container" %>
+    <%= dump_page_specific_javascripts.html_safe %>
+  </body>
+</html>

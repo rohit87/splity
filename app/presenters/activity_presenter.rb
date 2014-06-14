@@ -9,6 +9,10 @@ class ActivityPresenter
     @activity = activity
   end
 
+  def truncated_event
+    truncate(activity.event, separator: ' ')
+  end
+
   def location
     activity.location
   end

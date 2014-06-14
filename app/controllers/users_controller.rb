@@ -1,7 +1,9 @@
 class UsersController < ApplicationController
   
-  before_action :signed_in_user, only: [:index, :friends, :unfriend, :logout, :home, :show, :patch, :destroy]
+  before_action :signed_in_user, only: [:index, :friends, :unfriend, :logout, :home, :homepage, :show, :patch, :destroy]
   before_action :correct_user, only: [:friends, :patch, :destroy]
+
+  layout "single_page", only: [:homepage]
 
   protect_from_forgery :except => [:authenticate_via_app]
   
@@ -21,7 +23,7 @@ class UsersController < ApplicationController
 
   def home
     @user = current_user
-    @dashboard = user_dashboard(current_user)
+    @dashboard = user_dashboard_for current_user
 
     if false && @user.is_facebook_user?
       @dashboard[:fb_token] = current_user.auth_token
@@ -32,6 +34,11 @@ class UsersController < ApplicationController
       @dashboard[:friends] = @friends
     end
     render 'show'
+  end
+
+  def homepage
+    @user = current_user
+    # @dashboard = user_dashboard_for  @user
   end
 
   def create
@@ -126,7 +133,7 @@ class UsersController < ApplicationController
       params.require(:user).permit(:name, :email, :password, :password_confirmation)
     end
 
-    def user_dashboard(user)
+    def user_dashboard_for(user)
       participations = user.participations
       incoming = []
       payments = []
