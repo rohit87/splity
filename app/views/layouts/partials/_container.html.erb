@@ -8,7 +8,10 @@
     <div class="col-lg-offset-1 col-lg-8" id="divActivityFeed">
       <%
         if params[:controller] == "users" && params[:action] == "homepage"
-          concat render partial: "users/partials/user_activity_feed", locals: { user: @user, feed: UserActivityFeedPresenter.new(@user) }
+          concat render partial: "users/partials/user_activity_feed", locals: {
+            user: @user,
+            feed: UserActivityFeedPresenter.new(@user, get_activities_query_from_params, params[:query]),
+          }
         else
           concat "Never gonna give you up never gonna let you down"
         end

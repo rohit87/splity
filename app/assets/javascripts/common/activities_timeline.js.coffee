@@ -1,7 +1,7 @@
 jQuery ->
 
   query_url = (qs) ->
-    "/users/#{current_user.id}/activities?#{qs}"
+    "/?#{qs}"
 
   current_query_and = (object) ->
     q = $.extend {}, params.query, object
@@ -50,7 +50,10 @@ jQuery ->
 
   $('.popover-date').each ->
     $(@).attr 'href', only { date: $(@).data 'date' }
+    $(@).click (e) -> e.stopPropagation()
   $('.popover-location').each ->
     $(@).attr 'href', only { location: $(@).html() }
+    $(@).click (e) -> e.stopPropagation()
   $('.popover-person').each ->
     $(@).attr 'href', only { friend: $(@).data('id') }
+    $(@).click (e) -> e.stopPropagation()

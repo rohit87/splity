@@ -25,15 +25,13 @@ class @ActivityView
     @expanded = false
 
   expand: ->
-    @expandedContent.show()
-    @contractedContent.hide()
+    @container.addClass('activity-expanded').removeClass('activity-collapsed')
     @expanded = true
     $('<div class=activity-separator></div>').insertBefore(@container)
     $('<div class=activity-separator></div>').insertAfter(@container)
 
   collapse: ->
-    @expandedContent.hide()
-    @contractedContent.show()
+    @container.removeClass('activity-expanded').addClass('activity-collapsed')
     @expanded = false
     @container.prev('.activity-separator').remove()
     @container.next('.activity-separator').remove()

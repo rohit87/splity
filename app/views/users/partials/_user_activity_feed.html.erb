@@ -1,8 +1,8 @@
-<h1><%= "Your Activities" %></h1>
+<h1><%= feed.title %></h1>
 
 <div class="feed-container">
 <% feed.activities.each do |activity| %>
-  <div href="javascript:void(0)" class="activity">
+  <div href="javascript:void(0)" class="activity activity-collapsed">
     <div class="row contracted-content">
       <div class="col-xs-9">
         <%= activity.truncated_event %> @ <%= activity.truncated_location %>, ( <%= activity.formatted_total_amount %> )
@@ -14,7 +14,9 @@
     <div class="row expanded-content">
       <div class="col-xs-12">
         <h4 class="pull-left"><%= activity.event %></h4>
-        <span class="pull-right"><%= activity.date %></span>
+        <span class="pull-right">
+          <i class="glyphicon glyphicon-time"></i> <a href="javascript:void(0)" class="popover-date" data-date="<%= activity.raw_date.to_s %>"><%= activity.date %></a>
+        </span>
       </div>
       <div class="col-xs-12">
         <h5><i class="glyphicon glyphicon-map-marker"></i> <%= activity.location %></h5>
@@ -36,17 +38,21 @@
 <% request_javascript_module "activity_feed" %>
 
 <style type="text/css">
-  .activity:hover {
+  .activity.activity-collapsed:hover {
     background-color: #eee;
     cursor: pointer;
   }
 
-  .expanded-content {
-    display: none;
+  .expanded-content, .contracted-content {
+    transition: 200ms;
   }
 
-  .contracted-content {
+  .activity.activity-collapsed .contracted-content, .activity.activity-expanded .expanded-content {
     display: block;
+  }
+
+  .activity.activity-expanded .contracted-content, .activity.activity-collapsed .expanded-content {
+    display: none;
   }
 
   .feed-container {
@@ -61,6 +67,7 @@
     margin-bottom: -1px;
     background-color: #fff;
     border: 1px solid #ddd;
+    transition: 200ms;
   }
 
   .activity:first-child {

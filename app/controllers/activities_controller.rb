@@ -2,40 +2,17 @@ class ActivitiesController < ApplicationController
 
   require 'date'
 
+  include ActivityQueryHelper  
+
   before_action :signed_in_user, except: [:create]
   protect_from_forgery :except => [:create]
 
   def index
-    query = { }
-    user_ids = []
-    user_ids << current_user.id
-
-    if params[:query]
-      for key in params[:query].keys
-        case key
-        when "date"
-          query[key] = Date.parse(params[:query][key])
-        when "friend"
-          poorly_written_query = {
-            participations: {
-              activity_id: User.find(params[:query][:friend]).activities.pluck(:id)
-            }
-          }
-        else
-          query[key] = params[:query][key]
-        end
-      end
-    end
-
-    # @activities = Activity.includes(:users).where(users: { id: user_ids }).where(query).order({ date: :desc }).paginate(page: params[:page], per_page: 10)
-    # @activities = current_user.activities.where(query).where({ activitys: { participations: { id: 4 } } }).order({ created_at: :desc }).paginate(page: params[:page], per_page: 10)
     @activities = Activity.joins(:participations)
-      .where(poorly_written_query)
-      .where(query)
+      .where(get_activities_query_from_params)
       .uniq
       .order({ created_at: :desc })
       .paginate(page: params[:page], per_page: 10)
-    # binding.pry
   end
 
   def new

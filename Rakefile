@@ -4,3 +4,5 @@
 require File.expand_path('../config/application', __FILE__)
 
 Splity::Application.load_tasks
+require 'jasmine'
+load 'jasmine/tasks/jasmine.rake'
