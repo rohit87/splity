@@ -7,6 +7,8 @@ Splity::Application.routes.draw do
       post :friends, :unfriend
     end
 
+    match "/tooltip" => "users#tooltip", via: :get, as: "tooltip"
+
     match "/patch" => "users#patch", via: [:post], as: "patch_user"
 
     resources :activities
@@ -22,6 +24,9 @@ Splity::Application.routes.draw do
   # notifications
   match "/notifications_lightbox/" => "notifications#all_notifications_lightbox", via: :get, as: "notifications_lightbox"
   match "/notification/read/:notification_id" => "notifications#read_notification", via: :get, as: "notification_read"
+
+  # JSON Services
+  match "/api/feed" => "feeds#feed", via: [:get], as: "feed"
 
   # match "/" => "users#home", via: [:get], as: "root"
   match "/" => "users#homepage", via: [:get], as: "root"

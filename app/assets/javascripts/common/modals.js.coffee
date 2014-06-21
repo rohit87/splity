@@ -1,4 +1,4 @@
-n = namespace('splity.ui')
+n = namespace('splity1.ui')
 
 class n.Modal
 

@@ -25,7 +25,7 @@
         <hr style="margin: 8px 0">
         <p>
           <% for user in activity_presenter.users_except current_user do %>
-            <a href="javascript:void(0)" class="popover-person" data-id="<%= user.id %>">
+            <a href="javascript:void(0)" class="popover-person user-tooltip" data-id="<%= user.id %>">
               <img src="<%= profile_picture_url_for user %>" class="img-circle" width="52" title="<%= user.name %>" alt="<%= user.name %>">
             </a>
           <% end %>

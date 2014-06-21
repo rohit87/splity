@@ -21,6 +21,11 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
+  def tooltip
+    @user = User.find_by id: params[:user_id]
+    render partial: "/users/partials/user_tooltip"
+  end
+
   def home
     @user = current_user
     @dashboard = user_dashboard_for current_user
