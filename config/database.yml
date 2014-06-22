@@ -9,8 +9,8 @@ development:
   reconnect: true
   database: splity
   pool: 5
-  username: fab
-  password: fab2011!
+  username: root
+  password: 
   host: 127.0.0.1
 
 staging:
@@ -19,8 +19,8 @@ staging:
   reconnect: true
   database: splity
   pool: 5
-  username: fab
-  password: fab2011!
+  username: root
+  password: 
   host: 127.0.0.1
 
 # Warning: The database defined as "test" will be erased and
@@ -38,6 +38,6 @@ production:
   reconnect: true
   database: splity
   pool: 5
-  username: fab
-  password: fab2011!
+  username: root
+  password: 
   host: 127.0.0.1

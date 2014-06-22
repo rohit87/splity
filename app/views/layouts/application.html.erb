@@ -23,7 +23,7 @@
 
   <%= render partial: '/layouts/partials/navbar' %>
 
-  <div class="container">
+  <div class="container" ng-app="splity">
   
     <%= render partial: "/layouts/partials/common_page_header" %>
     
@@ -36,6 +36,7 @@
 
     <%# Page Content %>
     <%= yield %>
+    <div ng-view></div>
 
   </div>
 
@@ -54,6 +55,6 @@
   </div>
   <% end %>
   <% end %> -->
-  <%= dump_page_specific_javascripts.html_safe %>
+  <%= render partial: "layouts/partials/footer/common_footer" %>
 </body>
 </html>
