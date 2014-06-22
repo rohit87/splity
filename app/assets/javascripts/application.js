@@ -33,3 +33,6 @@
 //
 //= require raphael
 //= require morris.min
+//
+//= require angular
+//= require angular-app

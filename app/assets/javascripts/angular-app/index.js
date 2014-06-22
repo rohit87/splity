@@ -1,2 +1,4 @@
-//= require app.js
+//= require ./app
+//= require ./filters
+//= require ./controllers
 //= require_tree
