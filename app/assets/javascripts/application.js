@@ -13,6 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //
+//= require AppacitiveSDK
+//
 //= require angular
 //= require angular_resource
 //
