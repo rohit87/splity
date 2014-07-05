@@ -1,1 +1,1 @@
-splity.config();
+// splity.config();

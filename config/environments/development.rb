@@ -28,20 +28,23 @@ Splity::Application.configure do
   config.assets.debug = true
 
   config.to_prepare do
-      javascripts_provided = {}
-      javascript_base_path = Rails.root.join('app', 'assets', 'javascripts')
-      Dir.foreach(javascript_base_path) do |file|
-          next if file == '.' or file == '..'
-          current_file = File.join(javascript_base_path, file)
-          if File.directory?(current_file)
-              Dir.chdir(current_file) do |directory|
-                  Dir.foreach(directory) do |inner_file|
-                      next if inner_file == '.' or inner_file == '..'
-                      javascripts_provided["#{file}"] = "#{inner_file.gsub('.js', '').gsub('.erb', '').gsub('.coffee', '').gsub('.litcoffee','')}"
-                  end
-              end
-          end
-      end
-      GlobalConstants::JavascriptsProvided = javascripts_provided
+    javascripts_provided = {}
+    javascript_base_path = Rails.root.join('app', 'assets', 'javascripts')
+    puts 'Loading javascripts from filesystem'
+    Dir.foreach(javascript_base_path) do |file|
+        next if file == '.' or file == '..'
+        current_file = File.join(javascript_base_path, file)
+        if File.directory?(current_file)
+            Dir.chdir(current_file) do |directory|
+                Dir.foreach(directory) do |inner_file|
+                  next if inner_file == '.' or inner_file == '..' or inner_file.starts_with? '.'
+                  javascripts_provided["#{file}"] = [] if javascripts_provided["#{file}"].nil?
+                  javascripts_provided["#{file}"] << "#{inner_file.gsub('.js', '').gsub('.erb', '').gsub('.coffee', '').gsub('.litcoffee','')}"
+                end
+            end
+        end
+    end
+    GlobalConstants::JavascriptsProvided = javascripts_provided
+    puts GlobalConstants::JavascriptsProvided.to_yaml
   end
 end

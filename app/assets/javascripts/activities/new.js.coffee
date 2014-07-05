@@ -50,6 +50,7 @@ class CreateActivityForm extends BaseView
         name: 'google-places'
         displayKey: 'description'
         source: (query, callback) ->
+          return unless googlePlacesService?
           if googlePlacesCache.hasKey query
             console.log "hit for #{query}"
             callback JSON.parse googlePlacesCache.get query
@@ -88,6 +89,7 @@ class CreateActivityForm extends BaseView
 
   onSubmit: () ->
     $('#txtParticipants').val(@.serialize())
+    return false
     @container.find('form').get(0).submit()
 
   setTotalAmount: (amount) ->
@@ -105,6 +107,8 @@ class CreateActivityForm extends BaseView
         p.amount_owed = participant.data.amountOwed.amount
         p.amount_owed_to = participant.data.amountOwed.to
       participants.push p
+
+    appacitive participants
     JSON.stringify participants
 
 
@@ -246,3 +250,30 @@ class Participant extends BaseView
       @setAmountFieldMode data.value
       setTimeout (() => @inputAmount.focus()), 0
     @bindEvents()
+
+
+@appacitive = (participants) ->
+  activity = new splity.models.Activity {
+    event: $('#inputEvent').val()
+    amount: $('#inputAmount').val()
+    location: $('#inputLocation').val()
+    currency: $('#inputCurrency').val()
+  }
+
+  activity.save().then ->
+    for participant in participants
+      participation = new splity.models.Participation {
+        endpoints: [{
+          # object: new splity.models.User { __id: participant.user_id }
+          object: new splity.models.User { __id: Appacitive.Users.currentUser().get('__id') }
+          label: 'user'
+        }, {
+          object: activity,
+          label: 'activity'  
+        }]
+        amount_paid: participant.amount_paid
+        amount_owed: participant.amount_owed
+        amount_owed_to: participant.amount_owed_to
+        resolved: false
+      }
+      participation.save()

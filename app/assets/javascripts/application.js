@@ -15,9 +15,6 @@
 //
 //= require AppacitiveSDK
 //
-//= require angular
-//= require angular_resource
-//
 // require turbolinks
 // require_tree .
 //
@@ -39,6 +36,8 @@
 //
 //= require raphael
 //= require morris.min
+//
+//= require models
 //
 //= require angular
 //= require angular-app

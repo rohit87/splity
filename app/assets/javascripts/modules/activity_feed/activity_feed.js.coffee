@@ -48,3 +48,13 @@ class @ActivityView
 
 jQuery ->
   window.activityFeed = new ActivityFeedView $('#divActivityFeed'), {}
+
+
+
+
+
+
+
+
+
+

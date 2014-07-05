@@ -17,7 +17,7 @@ module StaticAssets
 
     def dump_page_specific_javascripts
       tags = []
-      if GlobalConstants::JavascriptsProvided[params[:controller]] == params[:action]
+      if !GlobalConstants::JavascriptsProvided[params[:controller]].nil? && GlobalConstants::JavascriptsProvided[params[:controller]].include?(params[:action])
         tags << javascript_include_tag("#{params[:controller]}/#{params[:action]}")
       end
       if @requested_javascript_modules.present?

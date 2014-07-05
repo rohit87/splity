@@ -21,4 +21,7 @@
  *= require bootstrap-editable
  *= require bootstrap-typeahead
  *= require timeline
+ *
+ *= require friend_list_block
+ *
  */

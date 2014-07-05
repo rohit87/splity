@@ -1,2 +1,2 @@
-//= require ./angular.min
-//= require_tree
+//= require angular
+//= require_tree .

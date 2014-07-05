@@ -31,9 +31,21 @@
           <div class="form-group">
             <div class="col-lg-10 col-lg-offset-2">
               <button type="submit" class="btn btn-primary">Login</button>
-              <a href="/auth/facebook/" class="btn btn-facebook"><i class="fa fa-facebook"></i> | Login with Facebook</a>
+              <a href="javascript:void(0)" onclick="javascript:fbl()" class="btn btn-facebook"><i class="fa fa-facebook"></i> | Login with Facebook</a>
             </div>
           </div>
+
+          <div id="fb-root"></div>
+
+          <script type="text/javascript">
+
+            window.fbl = function () {
+              Appacitive.Facebook.requestLogin().then(function(fbResponse) {
+                console.log('Facebook login successfull with access token: ' + Appacitive.Facebook.accessToken());
+                return Appacitive.Users.loginWithFacebook(Appacitive.Facebook.accessToken());
+              });
+            }
+          </script>
           
           <div class="form-group">
             <div class="col-lg-2"></div>

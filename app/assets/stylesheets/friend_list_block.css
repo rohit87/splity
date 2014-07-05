@@ -1,0 +1,46 @@
+.friend-block-container {
+  margin: 10px;
+  box-sizing: border-box;
+  height: 80px;
+  position: relative;
+  border: 1px solid transparent;
+  display: block;
+  transition: 90ms;
+}
+
+.friend-block-container:hover {
+  border: 1px solid #eee;
+  cursor: pointer;
+  -webkit-transform: scale(1.025);
+  -moz-transform: scale(1.025);
+  -ms-transform: scale(1.025);
+  -o-transform: scale(1.025);
+  transform: scale(1.025);
+  transition: 90ms;
+}
+
+.friend-block-friend-name, .friend-block-friend-email {
+  display: inline-block;
+  width: 65%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: inline-block;
+  margin: 10px 0 0 10px;
+}
+
+.friend-block-friend-email {
+  margin-top: 0;
+  margin
+}
+
+.friend-block-remove-friend {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  display: none;
+}
+
+.friend-block-container:hover .friend-block-remove-friend {
+  display: block;
+}

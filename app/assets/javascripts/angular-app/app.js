@@ -1,4 +1,7 @@
-var splity = angular.module('splity', [
+namespace('splity.app');
+
+splity.app = angular.module('splity', [
 	//Module Dependencies
-	'ngRoute'
+	'ngRoute',
+  'ngResource'
 ]);

@@ -7,14 +7,19 @@
       var params = <%= { controller: params[:controller], action: params[:action] }.merge!(params).to_json.html_safe %>
       var current_user = <%= signed_in? ? { id: current_user.id }.to_json.html_safe : {}.to_json %>
     </script>
-    <%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true", "application" %>
+    <%#= javascript_include_tag "http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true" %>
+    <%= javascript_include_tag "application" %>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%= csrf_meta_tags %>
   </head>
   <body>
     <%= render partial: '/layouts/partials/navbar' %>
     <%= render partial: "/layouts/partials/container" %>
-    <%= dump_page_specific_javascripts.html_safe %>
+
     <modals><%= render partial: "/partials/modal" %></modals>
+
+    <%= render partial: "layouts/partials/footer/common_footer" %>
+
   </body>
+
 </html>
