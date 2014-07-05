@@ -1,0 +1,9 @@
+<a href="<%= user_url friend %>" class="friend-block-container">
+  <div class="friend-preview pull-left">
+    <%= profile_picture_for friend %>
+  </div>
+  <h4 class="friend-block-friend-name"><%= friend[:name] %></h4>
+  <h5 class="friend-block-friend-email"><%= friend[:email] %></h5>
+  <span class="glyphicon glyphicon-remove friend-block-remove-friend" title="Remove Friend"></span>
+  <div style="clear: both"></div>
+</a>
