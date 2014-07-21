@@ -52,6 +52,16 @@ group :development, :test do
   gem 'binding_of_caller'
   gem 'meta_request'
   gem 'jasmine'
+  gem 'rspec-rails'
+  gem 'factory_girl'
+  gem 'factory_girl_rails'
+  gem 'fuubar'
+  gem 'guard-rspec', require: false
+  gem 'launchy', require: false
+end
+
+group :test do
+  gem 'faker'
 end
 
 # OAuth, Facebook et al

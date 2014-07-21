@@ -2,8 +2,8 @@ class Activity < ActiveRecord::Base
 
   validates :event, presence: true
   validates :amount, presence: true
-  validates_numericality_of :amount, greater_than_or_equal_to: 3
-  validates :currency, presence: true
+  validates_numericality_of :amount, greater_than: 3
+  validates :currency, presence: true, length: { is: 3 }
 
   # has_and_belongs_to_many :users
   has_many :participations

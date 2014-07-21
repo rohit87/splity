@@ -94,10 +94,17 @@ class User < ActiveRecord::Base
   end
 
   def create_friendship!(user)
-    user.transaction do
-      self.friends << user
-      user.friends << self
+    begin
+      user.transaction do
+        self.friends << user
+        user.friends << self
+      end
+    rescue ActiveRecord::RecordNotUnique
     end
+  end
+
+  def add_friend!(user)
+    self.create_friendship!(user)
   end
 
   def unfriend!(user)

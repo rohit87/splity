@@ -28,6 +28,28 @@ Splity::Application.routes.draw do
   # JSON Services
   match "/api/feed" => "feeds#feed", via: [:get], as: "feed"
 
+  # Start APIs
+  namespace :api do
+
+    # Authentication
+    namespace :authentication do
+      post :login
+      get :me
+      post :logout
+    end
+
+    namespace :users do
+      get '/:user_id', to: :get, as: :get
+      put '/', to: :create, as: :create
+      delete '/:user_id', to: :delete, as: :delete
+      post '/:user_id', to: :update, as: :update
+    end
+
+    match "*rubbish" => "base#not_found", via: [:get, :post]
+
+  end
+  # End APIs
+
   # match "/" => "users#home", via: [:get], as: "root"
   match "/" => "users#homepage", via: [:get], as: "root"
   match "/homepage" => "users#homepage", via: [:get], as: "homepage"
