@@ -1,0 +1,24 @@
+{
+  "name": "Splity",
+  "version": "0.0.0",
+  "homepage": "https://github.com/rohit87/splity",
+  "description": "Splity App",
+  "authors": [
+    "Rohit",
+    "Biswarup"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor/assets/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.2.0",
+    "angular": "~1.2.25",
+    "bootswatch": "~3.2.0+4"
+  }
+}

@@ -12,6 +12,9 @@
 //
 //= require jquery
 //= require jquery_ujs
+
+//= require bootstrap/dist/js/bootstrap.min
+
 //
 //= require AppacitiveSDK
 //
@@ -26,7 +29,6 @@
 //= require common
 //= require TemplateProvider
 //
-//= require bootstrap.min
 //= require jquery.chosen
 //= require bootstrap-datepicker
 //= require bootstrap-switch
@@ -39,5 +41,6 @@
 //
 //= require models
 //
-//= require angular
+//= require angular/angular.min
 //= require angular-app
+

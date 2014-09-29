@@ -9,8 +9,6 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require bootstrap.min
- * require bootstrap.overrides
  * require AdminLTE
  *= require chosen
  * require sb-admin
@@ -23,5 +21,6 @@
  *= require timeline
  *
  *= require friend_list_block
- *
+ *= require bootswatch/paper/bootstrap.min
+ *= require bootstrap.overrides
  */
